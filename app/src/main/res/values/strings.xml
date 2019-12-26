@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">AndroidSample</string>
+    <string name="app_name">Android\nSample</string>
+    <string name="content_provider_example_address_book">Content provider example \nAddress book</string>
 </resources>

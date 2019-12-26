@@ -7,9 +7,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+import com.hoony.androidsample.content_provider.ContentProviderActivity;
 import com.hoony.androidsample.databinding.ActivityMainBinding;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener{
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,6 +20,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         binding.btGoBottomSheetDialog.setOnClickListener(MainActivity.this);
         binding.btGoMusicPlayer.setOnClickListener(MainActivity.this);
         binding.btGoVideoPlayer.setOnClickListener(MainActivity.this);
+        binding.btGoContentProvider.setOnClickListener(MainActivity.this);
     }
 
     private void goActivity(Class target) {
@@ -37,6 +39,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.bt_go_video_player:
                 goActivity(VideoPlayerActivity.class);
+                break;
+            case R.id.bt_go_content_provider:
+                goActivity(ContentProviderActivity.class);
                 break;
         }
     }
