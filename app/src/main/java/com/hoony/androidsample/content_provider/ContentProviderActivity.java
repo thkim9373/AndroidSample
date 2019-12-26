@@ -1,16 +1,19 @@
 package com.hoony.androidsample.content_provider;
 
 import android.Manifest;
-import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.provider.Settings;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
@@ -66,16 +69,27 @@ public class ContentProviderActivity extends AppCompatActivity {
 
         for (int result : grantResults) {
             if (result == PackageManager.PERMISSION_DENIED) {
-                Dialog dialog = new Dialog(ContentProviderActivity.this);
-                dialog.setTitle("Please allow permission");
-                dialog.setCancelable(false);
-                dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                final AlertDialog.Builder builder = new AlertDialog.Builder(ContentProviderActivity.this);
+                builder.setTitle("Permission denied.");
+                builder.setCancelable(false);
+                builder.setMessage("Please allow permission");
+                builder.setNegativeButton("닫기", null);
+                builder.setPositiveButton("설정", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+                                Uri.fromParts("package", getPackageName(), null));
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
+                    }
+                });
+                builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
                     @Override
                     public void onDismiss(DialogInterface dialogInterface) {
                         finish();
                     }
                 });
-                dialog.show();
+                builder.show();
                 return;
             }
         }
