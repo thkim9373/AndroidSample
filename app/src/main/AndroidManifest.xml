@@ -12,7 +12,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name=".main.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -23,6 +23,7 @@
         <activity android:name=".MusicPlayerActivity" />
         <activity android:name=".VideoPlayerActivity" />
         <activity android:name=".content_provider.ContentProviderActivity" />
+        <activity android:name=".photo_grid_view.PhotoGridViewActivity" />
     </application>
 
 </manifest>

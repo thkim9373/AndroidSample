@@ -1,4 +1,11 @@
 <resources>
     <string name="app_name">Android\nSample</string>
     <string name="content_provider_example_address_book">Content provider example \nAddress book</string>
+    <string-array name="main_item_array">
+        <item>Bottom Sheet Dialog</item>
+        <item>Music Player</item>
+        <item>Video Player</item>
+        <item>Content Provider(Address Book)</item>
+        <item>Image Grid View</item>
+    </string-array>
 </resources>
