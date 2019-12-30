@@ -1,12 +1,12 @@
 package com.hoony.androidsample.content_provider;
 
 import android.Manifest;
-import android.annotation.TargetApi;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Build.VERSION_CODES;
 import android.os.Bundle;
 import android.provider.ContactsContract;
@@ -41,11 +41,12 @@ public class ContentProviderActivity extends AppCompatActivity implements Loader
         loadData();
     }
 
-    @TargetApi(VERSION_CODES.M)
     private boolean isDeniedPermissions() {
-        if (checkSelfPermission(PERMISSIONS[0]) == PackageManager.PERMISSION_DENIED) {
-            requestPermissions(PERMISSIONS, 1);
-            return true;
+        if (Build.VERSION.SDK_INT >= VERSION_CODES.M) {
+            if (checkSelfPermission(PERMISSIONS[0]) == PackageManager.PERMISSION_DENIED) {
+                requestPermissions(PERMISSIONS, 1);
+                return true;
+            }
         }
         return false;
     }
@@ -59,40 +60,6 @@ public class ContentProviderActivity extends AppCompatActivity implements Loader
     protected void onDestroy() {
         super.onDestroy();
         if (loader != null) loader.abandon();
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
-        for (int result : grantResults) {
-            if (result == PackageManager.PERMISSION_DENIED) {
-                final AlertDialog.Builder builder = new AlertDialog.Builder(ContentProviderActivity.this);
-                builder.setTitle("Permission denied.");
-                builder.setCancelable(false);
-                builder.setMessage("Please allow permission");
-                builder.setNegativeButton("닫기", null);
-                builder.setPositiveButton("설정", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
-                                Uri.fromParts("package", getPackageName(), null));
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        startActivity(intent);
-                    }
-                });
-                builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
-                    @Override
-                    public void onDismiss(DialogInterface dialogInterface) {
-                        finish();
-                    }
-                });
-                builder.show();
-                return;
-            }
-        }
-
-        loadData();
     }
 
     @NonNull
@@ -139,5 +106,39 @@ public class ContentProviderActivity extends AppCompatActivity implements Loader
 
             cursor.close();
         }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        for (int result : grantResults) {
+            if (result == PackageManager.PERMISSION_DENIED) {
+                final AlertDialog.Builder builder = new AlertDialog.Builder(ContentProviderActivity.this);
+                builder.setTitle("Permission denied.");
+                builder.setCancelable(false);
+                builder.setMessage("Please allow permission");
+                builder.setNegativeButton("닫기", null);
+                builder.setPositiveButton("설정", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+                                Uri.fromParts("package", getPackageName(), null));
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
+                    }
+                });
+                builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogInterface dialogInterface) {
+                        finish();
+                    }
+                });
+                builder.show();
+                return;
+            }
+        }
+
+        loadData();
     }
 }

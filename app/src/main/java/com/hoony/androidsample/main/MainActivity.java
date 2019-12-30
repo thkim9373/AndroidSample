@@ -15,7 +15,7 @@ import com.hoony.androidsample.R;
 import com.hoony.androidsample.VideoPlayerActivity;
 import com.hoony.androidsample.content_provider.ContentProviderActivity;
 import com.hoony.androidsample.databinding.ActivityMainBinding;
-import com.hoony.androidsample.photo_grid_view.PhotoGridViewActivity;
+import com.hoony.androidsample.gallery.GalleryActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             MusicPlayerActivity.class,
             VideoPlayerActivity.class,
             ContentProviderActivity.class,
-            PhotoGridViewActivity.class
+            GalleryActivity.class
     };
 
     @Override
