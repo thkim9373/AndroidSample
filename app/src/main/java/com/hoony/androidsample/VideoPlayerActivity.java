@@ -11,8 +11,8 @@ import com.hoony.androidsample.databinding.ActivityVideoPlayerBinding;
 
 public class VideoPlayerActivity extends AppCompatActivity {
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
-        super.onCreate(savedInstanceState, persistentState);
-        ActivityVideoPlayerBinding binding = DataBindingUtil.setContentView(VideoPlayerActivity.this , R.layout.activity_video_player);
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        ActivityVideoPlayerBinding binding = DataBindingUtil.setContentView(VideoPlayerActivity.this, R.layout.activity_video_player);
     }
 }

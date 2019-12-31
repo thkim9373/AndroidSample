@@ -13,8 +13,8 @@ import com.hoony.androidsample.databinding.ActivityBottomSheetDialogBinding;
 public class BottomSheetDialogActivity extends AppCompatActivity implements View.OnClickListener {
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
-        super.onCreate(savedInstanceState, persistentState);
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         ActivityBottomSheetDialogBinding binding = DataBindingUtil.setContentView(BottomSheetDialogActivity.this, R.layout.activity_bottom_sheet_dialog);
 
         binding.btShowBottomSheet.setOnClickListener(BottomSheetDialogActivity.this);
