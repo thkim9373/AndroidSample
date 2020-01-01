@@ -1,7 +1,6 @@
 package com.hoony.androidsample.main;
 
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
 
@@ -16,7 +15,7 @@ import com.hoony.androidsample.VideoPlayerActivity;
 import com.hoony.androidsample.content_provider.ContentProviderActivity;
 import com.hoony.androidsample.databinding.ActivityMainBinding;
 import com.hoony.androidsample.gallery.GalleryActivity;
-import com.hoony.androidsample.music_player.MusicPlayerActivity;
+import com.hoony.androidsample.album_data_list.AlbumDataListActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +24,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private final Class[] targetClassArray = {
             BottomSheetDialogActivity.class,
-            MusicPlayerActivity.class,
+            AlbumDataListActivity.class,
             VideoPlayerActivity.class,
             ContentProviderActivity.class,
             GalleryActivity.class
