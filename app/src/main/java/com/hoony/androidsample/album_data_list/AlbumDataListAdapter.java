@@ -9,7 +9,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.hoony.androidsample.R;
-import com.hoony.androidsample.databinding.ItemAlbumDataBinding;
+import com.hoony.androidsample.databinding.ItemSingleTextViewBinding;
 
 import java.util.List;
 
@@ -24,12 +24,12 @@ public class AlbumDataListAdapter extends RecyclerView.Adapter {
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new ItemHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_album_data, parent, false));
+        return new ItemHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_single_text_view, parent, false));
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        ItemAlbumDataBinding binding = ((ItemHolder) holder).getBinding();
+        ItemSingleTextViewBinding binding = ((ItemHolder) holder).getBinding();
         AlbumData data = mList.get(position);
 
         String builder = "albumArt : " + data.getAlbumArt() + "\n" +
@@ -53,7 +53,7 @@ public class AlbumDataListAdapter extends RecyclerView.Adapter {
 
     private class ItemHolder extends RecyclerView.ViewHolder {
 
-        private ItemAlbumDataBinding binding;
+        private ItemSingleTextViewBinding binding;
 
         ItemHolder(@NonNull View itemView) {
             super(itemView);
@@ -61,7 +61,7 @@ public class AlbumDataListAdapter extends RecyclerView.Adapter {
             binding = DataBindingUtil.bind(itemView);
         }
 
-        ItemAlbumDataBinding getBinding() {
+        ItemSingleTextViewBinding getBinding() {
             return binding;
         }
     }

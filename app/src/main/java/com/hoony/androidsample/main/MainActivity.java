@@ -12,10 +12,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.hoony.androidsample.BottomSheetDialogActivity;
 import com.hoony.androidsample.R;
 import com.hoony.androidsample.VideoPlayerActivity;
-import com.hoony.androidsample.content_provider.ContentProviderActivity;
+import com.hoony.androidsample.address_book.AddressBookListActivity;
 import com.hoony.androidsample.databinding.ActivityMainBinding;
 import com.hoony.androidsample.gallery.GalleryActivity;
 import com.hoony.androidsample.album_data_list.AlbumDataListActivity;
+import com.hoony.androidsample.music_player.MusicPlayerActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,8 +26,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private final Class[] targetClassArray = {
             BottomSheetDialogActivity.class,
             AlbumDataListActivity.class,
+            MusicPlayerActivity.class,
             VideoPlayerActivity.class,
-            ContentProviderActivity.class,
+            AddressBookListActivity.class,
             GalleryActivity.class
     };
 
