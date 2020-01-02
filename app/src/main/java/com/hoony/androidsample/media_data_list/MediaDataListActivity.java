@@ -1,4 +1,4 @@
-package com.hoony.androidsample.album_data_list;
+package com.hoony.androidsample.media_data_list;
 
 import android.Manifest;
 import android.content.DialogInterface;
@@ -28,7 +28,7 @@ import com.hoony.androidsample.databinding.ActivityAlbumDataListBinding;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AlbumDataListActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
+public class MediaDataListActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
     private final String[] PERMISSIONS = {Manifest.permission.READ_EXTERNAL_STORAGE};
     private final int LOADER_ID = "MUSIC_DATA_LOADER".hashCode();
@@ -59,7 +59,7 @@ public class AlbumDataListActivity extends AppCompatActivity implements LoaderMa
     }
 
     private void loadData() {
-        CursorLoader loader = (CursorLoader) LoaderManager.getInstance(AlbumDataListActivity.this).initLoader(LOADER_ID, null, AlbumDataListActivity.this);
+        CursorLoader loader = (CursorLoader) LoaderManager.getInstance(MediaDataListActivity.this).initLoader(LOADER_ID, null, MediaDataListActivity.this);
         loader.loadInBackground();
     }
 
@@ -67,8 +67,8 @@ public class AlbumDataListActivity extends AppCompatActivity implements LoaderMa
     @Override
     public Loader<Cursor> onCreateLoader(int id, @Nullable Bundle args) {
         return new CursorLoader(
-                AlbumDataListActivity.this,
-                MediaStore.Audio.Albums.EXTERNAL_CONTENT_URI,
+                MediaDataListActivity.this,
+                MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
                 null,
                 null,
                 null,
@@ -85,40 +85,31 @@ public class AlbumDataListActivity extends AppCompatActivity implements LoaderMa
         if (cursor == null) return;
 
         @SuppressWarnings("deprecation")
-        int albumArtIndex = cursor.getColumnIndexOrThrow(MediaStore.Audio.Albums.ALBUM_ART);
-        int idIndex = cursor.getColumnIndexOrThrow(MediaStore.Audio.Albums._ID);
-        int albumIndex = cursor.getColumnIndexOrThrow(MediaStore.Audio.Albums.ALBUM);
-        int albumKeyIndex = cursor.getColumnIndexOrThrow(MediaStore.Audio.Albums.ALBUM_KEY);
-        int artistIndex = cursor.getColumnIndexOrThrow(MediaStore.Audio.Albums.ARTIST);
-        int artistIdIndex = cursor.getColumnIndexOrThrow(MediaStore.Audio.Albums.ARTIST_ID);
-        int artistKeyIndex = cursor.getColumnIndexOrThrow(MediaStore.Audio.Artists.ARTIST_KEY);
-        int firstYearIndex = cursor.getColumnIndexOrThrow(MediaStore.Audio.Albums.FIRST_YEAR);
-        int lastYearIndex = cursor.getColumnIndexOrThrow(MediaStore.Audio.Albums.LAST_YEAR);
-        int numOfSongsIndex = cursor.getColumnIndexOrThrow(MediaStore.Audio.Albums.NUMBER_OF_SONGS);
-
-        List<AlbumData> albumDataList = new ArrayList<>();
+        int idIndex = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media._ID);
+        int albumIdIndex = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ALBUM_ID);
+        int artistIdIndex = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ARTIST_ID);
+        int displayNameIndex = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DISPLAY_NAME);
+        int titleIndex = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.TITLE);
+        int albumArtistIndex = cursor.getColumnIndexOrThrow("album_artist");
+        List<MediaData> mediaDataList = new ArrayList<>();
         while (cursor.moveToNext()) {
-            albumDataList.add(new AlbumData(
-                    cursor.getString(albumArtIndex),
+            mediaDataList.add(new MediaData(
                     cursor.getString(idIndex),
-                    cursor.getString(albumIndex),
-                    cursor.getString(albumKeyIndex),
-                    cursor.getString(artistIndex),
+                    cursor.getString(albumIdIndex),
                     cursor.getString(artistIdIndex),
-                    cursor.getString(artistKeyIndex),
-                    cursor.getString(firstYearIndex),
-                    cursor.getString(lastYearIndex),
-                    cursor.getString(numOfSongsIndex)
+                    cursor.getString(displayNameIndex),
+                    cursor.getString(titleIndex),
+                    cursor.getString(albumArtistIndex)
             ));
         }
 
         cursor.close();
 
-        binding = DataBindingUtil.setContentView(AlbumDataListActivity.this, R.layout.activity_album_data_list);
+        binding = DataBindingUtil.setContentView(MediaDataListActivity.this, R.layout.activity_album_data_list);
 
-        binding.svAlbumData.setLayoutManager(new LinearLayoutManager(AlbumDataListActivity.this));
-        binding.svAlbumData.setAdapter(new AlbumDataListAdapter(albumDataList));
-        binding.svAlbumData.addItemDecoration(new DividerItemDecoration(AlbumDataListActivity.this, LinearLayoutManager.VERTICAL));
+        binding.svAlbumData.setLayoutManager(new LinearLayoutManager(MediaDataListActivity.this));
+        binding.svAlbumData.setAdapter(new MediaDataListAdapter(mediaDataList));
+        binding.svAlbumData.addItemDecoration(new DividerItemDecoration(MediaDataListActivity.this, LinearLayoutManager.VERTICAL));
     }
 
     @Override
@@ -131,7 +122,7 @@ public class AlbumDataListActivity extends AppCompatActivity implements LoaderMa
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         for (int result : grantResults) {
             if (result == PackageManager.PERMISSION_DENIED) {
-                AlertDialog.Builder dialog = new AlertDialog.Builder(AlbumDataListActivity.this);
+                AlertDialog.Builder dialog = new AlertDialog.Builder(MediaDataListActivity.this);
                 dialog.setTitle(R.string.permission_dialog_title);
                 dialog.setMessage(R.string.permission_dialog_msg);
                 dialog.setPositiveButton(R.string.permission_setting, new DialogInterface.OnClickListener() {

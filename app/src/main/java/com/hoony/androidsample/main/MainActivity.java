@@ -16,6 +16,7 @@ import com.hoony.androidsample.address_book.AddressBookListActivity;
 import com.hoony.androidsample.databinding.ActivityMainBinding;
 import com.hoony.androidsample.gallery.GalleryActivity;
 import com.hoony.androidsample.album_data_list.AlbumDataListActivity;
+import com.hoony.androidsample.media_data_list.MediaDataListActivity;
 import com.hoony.androidsample.music_player.MusicPlayerActivity;
 
 import java.util.ArrayList;
@@ -26,6 +27,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private final Class[] targetClassArray = {
             BottomSheetDialogActivity.class,
             AlbumDataListActivity.class,
+            MediaDataListActivity.class,
             MusicPlayerActivity.class,
             VideoPlayerActivity.class,
             AddressBookListActivity.class,

@@ -33,6 +33,8 @@ public class GalleryActivity extends AppCompatActivity implements LoaderManager.
 
     private final String[] PERMISSIONS = {Manifest.permission.READ_EXTERNAL_STORAGE};
 
+    private ActivityPhotoGridViewBinding binding;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,7 +81,7 @@ public class GalleryActivity extends AppCompatActivity implements LoaderManager.
     }
 
     private void showContent(Cursor cursor) {
-        ActivityPhotoGridViewBinding binding = DataBindingUtil.setContentView(GalleryActivity.this, R.layout.activity_photo_grid_view);
+        binding = DataBindingUtil.setContentView(GalleryActivity.this, R.layout.activity_photo_grid_view);
 
         List<ImageData> imageDataList = new ArrayList<>();
         int idColumn = cursor.getColumnIndexOrThrow(MediaStore.Images.Media._ID);
@@ -100,6 +102,13 @@ public class GalleryActivity extends AppCompatActivity implements LoaderManager.
 
         binding.rvGrid.setLayoutManager(new GridLayoutManager(GalleryActivity.this, 3));
         binding.rvGrid.setAdapter(new GalleryAdapter(imageDataList));
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        binding.rvGrid.setAdapter(null);
+        binding = null;
     }
 
     @Override

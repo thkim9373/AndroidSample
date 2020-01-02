@@ -35,6 +35,7 @@ public class AddressBookListActivity extends AppCompatActivity implements Loader
 
     private final String[] PERMISSIONS = {Manifest.permission.READ_CONTACTS};
 
+    private ActivityAddressBookListBinding binding;
     private CursorLoader loader;
 
     @Override
@@ -64,6 +65,7 @@ public class AddressBookListActivity extends AppCompatActivity implements Loader
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        binding.svAddressBook.setAdapter(null);
         if (loader != null) loader.abandon();
     }
 
@@ -145,7 +147,7 @@ public class AddressBookListActivity extends AppCompatActivity implements Loader
 
         cursor.close();
 
-        ActivityAddressBookListBinding binding = DataBindingUtil.setContentView(AddressBookListActivity.this, R.layout.activity_address_book_list);
+        binding = DataBindingUtil.setContentView(AddressBookListActivity.this, R.layout.activity_address_book_list);
 
         binding.svAddressBook.setLayoutManager(new LinearLayoutManager(AddressBookListActivity.this));
         binding.svAddressBook.setAdapter(new AddressListAdapter(addressBookDataList));
