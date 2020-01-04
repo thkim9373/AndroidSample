@@ -27,6 +27,7 @@
         <activity android:name=".gallery.GalleryActivity" />
         <activity android:name=".music_player.MusicPlayerActivity" />
         <activity android:name=".media_data_list.MediaDataListActivity" />
+        <activity android:name=".service.ServiceActivity" />
     </application>
 
 </manifest>
