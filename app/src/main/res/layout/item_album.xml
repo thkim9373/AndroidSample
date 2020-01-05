@@ -25,8 +25,9 @@
                 <com.makeramen.roundedimageview.RoundedImageView
                     android:id="@+id/iv_album_art"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="0dp"
                     android:scaleType="centerCrop"
+                    app:layout_constraintDimensionRatio="h, 1:1"
                     app:layout_constraintTop_toTopOf="parent"
                     app:riv_corner_radius_top_left="20dp"
                     app:riv_corner_radius_top_right="20dp"

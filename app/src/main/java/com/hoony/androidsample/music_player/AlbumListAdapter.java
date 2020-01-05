@@ -38,11 +38,17 @@ public class AlbumListAdapter extends RecyclerView.Adapter {
         ItemAlbumBinding binding = ((ItemViewHolder) holder).getBinding();
         AlbumData data = mList.get(position);
 
-        Glide.with(mContext)
-                .loadFromMediaStore(data.getAlbumArtUri())
-                .thumbnail(0.5f)
-                .centerCrop()
-                .into(binding.ivAlbumArt);
+        if (data.getAlbumArtUri() != null) {
+            binding.ivAlbumArt.setVisibility(View.VISIBLE);
+            Glide.with(mContext)
+                    .loadFromMediaStore(data.getAlbumArtUri())
+                    .thumbnail(0.5f)
+                    .centerCrop()
+                    .into(binding.ivAlbumArt);
+        } else {
+            binding.ivAlbumArt.setVisibility(View.INVISIBLE);
+        }
+
         binding.tvArtist.setText(data.getArtist());
         binding.tvNumOfSong.setText(String.valueOf(data.getNumOfSong()));
     }

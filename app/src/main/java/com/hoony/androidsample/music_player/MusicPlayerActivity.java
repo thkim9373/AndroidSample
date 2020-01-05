@@ -1,7 +1,6 @@
 package com.hoony.androidsample.music_player;
 
 import android.Manifest;
-import android.content.ContentUris;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -25,20 +24,16 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import com.hoony.androidsample.R;
 import com.hoony.androidsample.databinding.ActivityMusicPlayerBinding;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 public class MusicPlayerActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
     private final String[] PERMISSIONS = {Manifest.permission.READ_EXTERNAL_STORAGE};
-    private static final int MEDIA_DATA_LOADER = 775;
     private static final int ALBUM_DATA_LOADER = 559;
 
     private ActivityMusicPlayerBinding binding;
-    private boolean isAlbumDataLoadFinish = false;
-    private boolean isMediaDataLoadFinish = false;
-
-    private List<AlbumData> mList = new ArrayList<>();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -64,32 +59,19 @@ public class MusicPlayerActivity extends AppCompatActivity implements LoaderMana
     private void loadData() {
         CursorLoader albumDataLoader = (CursorLoader) LoaderManager.getInstance(MusicPlayerActivity.this).initLoader(ALBUM_DATA_LOADER, null, MusicPlayerActivity.this);
         albumDataLoader.loadInBackground();
-        CursorLoader mediaDataLoader = (CursorLoader) LoaderManager.getInstance(MusicPlayerActivity.this).initLoader(MEDIA_DATA_LOADER, null, MusicPlayerActivity.this);
-        mediaDataLoader.loadInBackground();
     }
 
     @NonNull
     @Override
     public Loader<Cursor> onCreateLoader(int id, @Nullable Bundle args) {
-        if (id == ALBUM_DATA_LOADER) {
-            return new CursorLoader(
-                    MusicPlayerActivity.this,
-                    MediaStore.Audio.Albums.EXTERNAL_CONTENT_URI,
-                    null,
-                    null,
-                    null,
-                    null
-            );
-        } else {
-            return new CursorLoader(
-                    MusicPlayerActivity.this,
-                    MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
-                    null,
-                    null,
-                    null,
-                    null
-            );
-        }
+        return new CursorLoader(
+                MusicPlayerActivity.this,
+                MediaStore.Audio.Albums.EXTERNAL_CONTENT_URI,
+                null,
+                null,
+                null,
+                null
+        );
     }
 
     @Override
@@ -100,7 +82,7 @@ public class MusicPlayerActivity extends AppCompatActivity implements LoaderMana
     private void showContents(Cursor cursor) {
         if (cursor == null) return;
 
-        int idIndex = cursor.getColumnIndexOrThrow(MediaStore.Audio.Albums._ID);
+        int idIndex = cursor.getColumnIndexOrThrow(MediaStore.Audio.Albums.ALBUM_ART);
         int artistIndex = cursor.getColumnIndexOrThrow(MediaStore.Audio.Albums.ARTIST);
         int numOfSongIndex = cursor.getColumnIndexOrThrow(MediaStore.Audio.Albums.NUMBER_OF_SONGS);
 
@@ -108,13 +90,12 @@ public class MusicPlayerActivity extends AppCompatActivity implements LoaderMana
         while (cursor.moveToNext()) {
             albumDataList.add(
                     new AlbumData(
-                            ContentUris.withAppendedId(MediaStore.Audio.Albums.EXTERNAL_CONTENT_URI, cursor.getInt(idIndex)),
+                            cursor.getString(idIndex) !=  null ?
+                            Uri.fromFile(new File(cursor.getString(idIndex))) : null,
                             cursor.getString(artistIndex),
                             cursor.getInt(numOfSongIndex)
                     )
             );
-
-//            Uri.withAppendedPath(MediaStore.Audio.Albums.EXTERNAL_CONTENT_URI, cursor.getString(idIndex)),
         }
 
         cursor.close();
