@@ -18,6 +18,7 @@ import com.hoony.androidsample.gallery.GalleryActivity;
 import com.hoony.androidsample.album_data_list.AlbumDataListActivity;
 import com.hoony.androidsample.media_data_list.MediaDataListActivity;
 import com.hoony.androidsample.music_player.MusicPlayerActivity;
+import com.hoony.androidsample.room.RoomActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +32,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             MusicPlayerActivity.class,
             VideoPlayerActivity.class,
             AddressBookListActivity.class,
-            GalleryActivity.class
+            GalleryActivity.class,
+            RoomActivity.class
     };
 
     @Override
