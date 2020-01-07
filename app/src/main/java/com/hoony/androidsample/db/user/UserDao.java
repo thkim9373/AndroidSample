@@ -11,5 +11,5 @@ import java.util.List;
 @Dao
 public interface UserDao extends BaseDao<User> {
     @Query("SELECT * FROM USER")
-    LiveData<List<User>> getAll();
+    List<User> getAll();
 }

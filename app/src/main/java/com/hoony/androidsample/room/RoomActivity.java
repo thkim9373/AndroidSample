@@ -1,6 +1,7 @@
 package com.hoony.androidsample.room;
 
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,11 +13,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.hoony.androidsample.R;
 import com.hoony.androidsample.databinding.ActivityRoomBinding;
+import com.hoony.androidsample.db.pet.Pet;
 import com.hoony.androidsample.db.user.User;
 
 import java.util.List;
 
-public class RoomActivity extends AppCompatActivity {
+public class RoomActivity extends AppCompatActivity implements View.OnClickListener {
 
     private ActivityRoomBinding binding;
     private RoomViewModel viewModel;
@@ -31,12 +33,18 @@ public class RoomActivity extends AppCompatActivity {
         viewModel.getUserList().observe(RoomActivity.this, new Observer<List<User>>() {
             @Override
             public void onChanged(List<User> users) {
-                binding.svPet.setAdapter(new UserAdapter(users));
+                binding.svUser.setAdapter(new UserAdapter(users, RoomActivity.this));
+            }
+        });
+        viewModel.getPetList().observe(RoomActivity.this, new Observer<List<Pet>>() {
+            @Override
+            public void onChanged(List<Pet> pets) {
+                binding.svPet.setAdapter(new PetAdapter(pets));
             }
         });
 
         setView();
-        loadData();
+        loadUSerData();
     }
 
     private void setView() {
@@ -47,7 +55,24 @@ public class RoomActivity extends AppCompatActivity {
         binding.svPet.addItemDecoration(new DividerItemDecoration(RoomActivity.this, LinearLayoutManager.VERTICAL));
     }
 
-    private void loadData() {
+    private void loadUSerData() {
         if (binding.svUser.getAdapter() == null) viewModel.loadUserList();
+    }
+
+    private void loadPetData(int index) {
+        viewModel.loadPetList(index);
+    }
+
+    @Override
+    public void onClick(View v) {
+        int index = (int) v.getTag();
+        loadPetData(index);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        binding.svUser.setAdapter(null);
+        binding.svPet.setAdapter(null);
     }
 }

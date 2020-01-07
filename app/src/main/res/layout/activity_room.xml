@@ -30,6 +30,7 @@
             android:id="@+id/sv_pet"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@id/view_divider"
             app:layout_constraintTop_toTopOf="parent" />
 

@@ -7,14 +7,14 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
 
 import com.hoony.androidsample.db.AppDatabase;
+import com.hoony.androidsample.db.pet.Pet;
 import com.hoony.androidsample.db.user.User;
 
 import java.util.List;
-import java.util.concurrent.Executors;
 
 public class RoomViewModel extends AndroidViewModel {
 
-    private AppDatabase appDatabase;
+    private final AppDatabase appDatabase;
 
     public RoomViewModel(@NonNull Application application) {
         super(application);
@@ -28,16 +28,39 @@ public class RoomViewModel extends AndroidViewModel {
     }
 
     void loadUserList() {
-        Executors.newSingleThreadExecutor().execute(
-                new Runnable() {
-                    @Override
-                    public void run() {
-                        List<User> userList = appDatabase.userDao().getAll();
+        TaskRunner taskRunner = new TaskRunner();
+        taskRunner.executeAsync(new UserLoadingTask(appDatabase), new TaskRunner.Callback<List<User>>() {
 
+            @Override
+            public void onComplete(List<User> result) {
+                userList.setValue(result);
+            }
 
-                        RoomViewModel.this.userList.setValue(userList);
-                    }
-                }
-        );
+            @Override
+            public void onFail(Exception e) {
+
+            }
+        });
+    }
+
+    private MutableLiveData<List<Pet>> petList = new MutableLiveData<>();
+
+    public MutableLiveData<List<Pet>> getPetList() {
+        return petList;
+    }
+
+    void loadPetList(int index) {
+        TaskRunner taskRunner = new TaskRunner();
+        taskRunner.executeAsync(new PetLoadingTask(appDatabase, index), new TaskRunner.Callback<List<Pet>>() {
+            @Override
+            public void onComplete(List<Pet> result) {
+                petList.setValue(result);
+            }
+
+            @Override
+            public void onFail(Exception e) {
+
+            }
+        });
     }
 }

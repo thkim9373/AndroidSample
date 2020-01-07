@@ -10,18 +10,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.hoony.androidsample.R;
 import com.hoony.androidsample.databinding.ItemSingleTextViewBinding;
-import com.hoony.androidsample.db.user.User;
+import com.hoony.androidsample.db.pet.Pet;
 
 import java.util.List;
 
-public class UserAdapter extends RecyclerView.Adapter {
+public class PetAdapter extends RecyclerView.Adapter {
 
-    private final List<User> userList;
-    private final View.OnClickListener onClickListener;
+    private final List<Pet> mList;
 
-    UserAdapter(List<User> userList, View.OnClickListener onClickListener) {
-        this.userList = userList;
-        this.onClickListener = onClickListener;
+    public PetAdapter(List<Pet> mList) {
+        this.mList = mList;
     }
 
     @NonNull
@@ -33,26 +31,25 @@ public class UserAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         ItemSingleTextViewBinding binding = ((ItemHolder) holder).getBinding();
-        User user = userList.get(position);
+        Pet pet = mList.get(position);
 
-        String content = "Index : " + user.getIndex() + "\n" +
-                "Name : " + user.getName();
+        String contents =
+                "Name : " + pet.getName() + "\n" +
+                        "Kind : " + pet.getKind();
 
-        binding.tvContent.setText(content);
-        binding.clContainer.setTag(user.getIndex());
-        binding.clContainer.setOnClickListener(onClickListener);
+        binding.tvContent.setText(contents);
     }
 
     @Override
     public int getItemCount() {
-        return userList.size();
+        return mList.size();
     }
 
     private class ItemHolder extends RecyclerView.ViewHolder {
 
-        private ItemSingleTextViewBinding binding;
+        ItemSingleTextViewBinding binding;
 
-        ItemHolder(@NonNull View itemView) {
+        public ItemHolder(@NonNull View itemView) {
             super(itemView);
             binding = DataBindingUtil.bind(itemView);
         }

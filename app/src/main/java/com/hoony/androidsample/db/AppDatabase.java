@@ -42,6 +42,7 @@ public abstract class AppDatabase extends RoomDatabase {
                                     @Override
                                     public void run() {
                                         getInstance(context).userDao().insertAll(User.userData());
+                                        getInstance(context).petDao().insertAll(Pet.petData());
                                     }
                                 }
                         );
@@ -60,7 +61,8 @@ public abstract class AppDatabase extends RoomDatabase {
                 .addMigrations(new Migration(1, 1) {
                     @Override
                     public void migrate(@NonNull SupportSQLiteDatabase database) {
-
+                        getInstance(context).userDao().insertAll(User.userData());
+                        getInstance(context).petDao().insertAll(Pet.petData());
                     }
                 })
                 .build();
