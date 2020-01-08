@@ -45,22 +45,22 @@ public class Pet {
     }
 
     public static Pet[] petData() {
-        return new Pet[] {
-                new Pet(0, "A", "Cat"),
-                new Pet(1, "B", "Dog"),
-                new Pet(1, "C", "Cat"),
-                new Pet(2, "D", "Dog"),
-                new Pet(2, "E", "Dog"),
-                new Pet(2, "F", "Cat"),
-                new Pet(3, "G", "Camel"),
-                new Pet(3, "H", "Dog"),
-                new Pet(3, "I", "Fish"),
-                new Pet(3, "J", "Cat"),
-                new Pet(4, "K", "Cat"),
-                new Pet(4, "L", "Dog"),
-                new Pet(4, "M", "Fish"),
-                new Pet(4, "N", "Bird"),
-                new Pet(4, "O", "Horse"),
+        return new Pet[]{
+                new Pet(1, "A", "Cat"),
+                new Pet(2, "B", "Dog"),
+                new Pet(2, "C", "Cat"),
+                new Pet(3, "D", "Dog"),
+                new Pet(3, "E", "Dog"),
+                new Pet(3, "F", "Cat"),
+                new Pet(4, "G", "Camel"),
+                new Pet(4, "H", "Dog"),
+                new Pet(4, "I", "Fish"),
+                new Pet(4, "J", "Cat"),
+                new Pet(5, "K", "Cat"),
+                new Pet(5, "L", "Dog"),
+                new Pet(5, "M", "Fish"),
+                new Pet(5, "N", "Bird"),
+                new Pet(5, "O", "Horse"),
         };
     }
 }
