@@ -26,7 +26,7 @@ public class Pet {
     @ColumnInfo(name = "kind")
     private String kind;
 
-    Pet(int index, String name, String kind) {
+    Pet(int index, @NonNull String name, @NonNull String kind) {
         this.index = index;
         this.name = name;
         this.kind = kind;
@@ -36,10 +36,12 @@ public class Pet {
         return index;
     }
 
+    @NonNull
     public String getName() {
         return name;
     }
 
+    @NonNull
     public String getKind() {
         return kind;
     }

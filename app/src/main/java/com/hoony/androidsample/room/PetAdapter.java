@@ -18,7 +18,7 @@ public class PetAdapter extends RecyclerView.Adapter {
 
     private final List<Pet> mList;
 
-    public PetAdapter(List<Pet> mList) {
+    PetAdapter(List<Pet> mList) {
         this.mList = mList;
     }
 
@@ -49,7 +49,7 @@ public class PetAdapter extends RecyclerView.Adapter {
 
         ItemSingleTextViewBinding binding;
 
-        public ItemHolder(@NonNull View itemView) {
+        ItemHolder(@NonNull View itemView) {
             super(itemView);
             binding = DataBindingUtil.bind(itemView);
         }

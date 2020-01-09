@@ -2,26 +2,41 @@ package com.hoony.androidsample.room;
 
 import android.app.Application;
 
-import androidx.lifecycle.LiveData;
-
 import com.hoony.androidsample.db.AppDatabase;
+import com.hoony.androidsample.db.pet.PetDao;
 import com.hoony.androidsample.db.user.User;
 import com.hoony.androidsample.db.user.UserDao;
 
 import java.util.List;
 
-public class RoomRepository {
+class RoomRepository {
+
+    private static RoomRepository INSTANCE;
 
     private UserDao mUserDao;
-    private LiveData<List<User>> mAllUser;
 
-    public RoomRepository(Application application) {
-        AppDatabase database = AppDatabase.getInstance(application);
-        mUserDao = database.userDao();
-//        mAllUser = mUserDao.getAll();
+    private PetDao mPetDao;
+
+    static RoomRepository getInstance(Application application) {
+        if (INSTANCE == null) {
+            INSTANCE = new RoomRepository(application);
+        }
+        return INSTANCE;
     }
 
-    LiveData<List<User>> getAllUser() {
-        return mAllUser;
+    private RoomRepository(Application application) {
+        AppDatabase database = AppDatabase.getInstance(application);
+        mUserDao = database.userDao();
+        mPetDao = database.petDao();
+    }
+
+    void getUserList(UserLoadingTask.Callback<List<User>> callback) {
+        TaskRunner taskRunner = new TaskRunner();
+        taskRunner.executeUserTaskAsync(new UserLoadingTask(mUserDao), callback);
+    }
+
+    void getPetList(final int index, final PetLoadingTask.callback callback) {
+        TaskRunner taskRunner = new TaskRunner();
+        taskRunner.executePetTaskAsync(new PetLoadingTask(mPetDao, index), callback);
     }
 }

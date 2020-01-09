@@ -9,6 +9,6 @@ import java.util.List;
 
 @Dao
 public interface PetDao extends BaseDao<Pet> {
-    @Query("SELECT * FROM PET")
-    List<Pet> getAll();
+    @Query("SELECT * FROM PET AS p WHERE p.`index` = :index")
+    List<Pet> getAll(int index);
 }

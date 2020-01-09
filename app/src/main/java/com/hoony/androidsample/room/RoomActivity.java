@@ -66,7 +66,7 @@ public class RoomActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         int index = (int) v.getTag();
-        loadPetData(index);
+        loadPetData(index );
     }
 
     @Override

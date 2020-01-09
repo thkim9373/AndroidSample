@@ -6,7 +6,6 @@ import androidx.annotation.NonNull;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
-import androidx.room.migration.Migration;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.hoony.androidsample.db.pet.Pet;
@@ -56,13 +55,6 @@ public abstract class AppDatabase extends RoomDatabase {
                     @Override
                     public void onDestructiveMigration(@NonNull SupportSQLiteDatabase db) {
                         super.onDestructiveMigration(db);
-                    }
-                })
-                .addMigrations(new Migration(1, 1) {
-                    @Override
-                    public void migrate(@NonNull SupportSQLiteDatabase database) {
-                        getInstance(context).userDao().insertAll(User.userData());
-                        getInstance(context).petDao().insertAll(Pet.petData());
                     }
                 })
                 .build();

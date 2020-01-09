@@ -6,19 +6,20 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
 
-import com.hoony.androidsample.db.AppDatabase;
 import com.hoony.androidsample.db.pet.Pet;
 import com.hoony.androidsample.db.user.User;
 
 import java.util.List;
 
-public class RoomViewModel extends AndroidViewModel {
+public class RoomViewModel extends AndroidViewModel
+        implements UserLoadingTask.Callback<List<User>>,
+        PetLoadingTask.callback {
 
-    private final AppDatabase appDatabase;
+    private final RoomRepository roomRepository;
 
     public RoomViewModel(@NonNull Application application) {
         super(application);
-        appDatabase = AppDatabase.getInstance(application);
+        roomRepository = RoomRepository.getInstance(application);
     }
 
     private MutableLiveData<List<User>> userList = new MutableLiveData<>();
@@ -28,39 +29,36 @@ public class RoomViewModel extends AndroidViewModel {
     }
 
     void loadUserList() {
-        TaskRunner taskRunner = new TaskRunner();
-        taskRunner.executeAsync(new UserLoadingTask(appDatabase), new TaskRunner.Callback<List<User>>() {
-
-            @Override
-            public void onComplete(List<User> result) {
-                userList.setValue(result);
-            }
-
-            @Override
-            public void onFail(Exception e) {
-
-            }
-        });
+        roomRepository.getUserList(RoomViewModel.this);
     }
 
     private MutableLiveData<List<Pet>> petList = new MutableLiveData<>();
 
-    public MutableLiveData<List<Pet>> getPetList() {
+    MutableLiveData<List<Pet>> getPetList() {
         return petList;
     }
 
     void loadPetList(int index) {
-        TaskRunner taskRunner = new TaskRunner();
-        taskRunner.executeAsync(new PetLoadingTask(appDatabase, index), new TaskRunner.Callback<List<Pet>>() {
-            @Override
-            public void onComplete(List<Pet> result) {
-                petList.setValue(result);
-            }
+        roomRepository.getPetList(index, RoomViewModel.this);
+    }
 
-            @Override
-            public void onFail(Exception e) {
+    @Override
+    public void onUserDataLoadingComplete(List<User> result) {
+        userList.setValue(result);
+    }
 
-            }
-        });
+    @Override
+    public void onUserDataLoadingFail(Exception e) {
+
+    }
+
+    @Override
+    public void onPetListLoadingComplete(List<Pet> result) {
+        petList.setValue(result);
+    }
+
+    @Override
+    public void onPetListLoadingFail(Exception e) {
+
     }
 }
