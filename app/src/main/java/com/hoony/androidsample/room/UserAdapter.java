@@ -1,5 +1,6 @@
 package com.hoony.androidsample.room;
 
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,16 +11,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.hoony.androidsample.R;
 import com.hoony.androidsample.databinding.ItemSingleTextViewBinding;
-import com.hoony.androidsample.db.user.User;
+import com.hoony.androidsample.room.POJO.CheckableUser;
 
 import java.util.List;
 
 public class UserAdapter extends RecyclerView.Adapter {
 
-    private final List<User> userList;
+    private final List<CheckableUser> userList;
     private final View.OnClickListener onClickListener;
 
-    UserAdapter(List<User> userList, View.OnClickListener onClickListener) {
+    UserAdapter(List<CheckableUser> userList, View.OnClickListener onClickListener) {
         this.userList = userList;
         this.onClickListener = onClickListener;
     }
@@ -33,7 +34,7 @@ public class UserAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         ItemSingleTextViewBinding binding = ((ItemHolder) holder).getBinding();
-        User user = userList.get(position);
+        CheckableUser user = userList.get(position);
 
         String content = "Index : " + user.getIndex() + "\n" +
                 "Name : " + user.getName();
@@ -41,6 +42,12 @@ public class UserAdapter extends RecyclerView.Adapter {
         binding.tvContent.setText(content);
         binding.clContainer.setTag(user.getIndex());
         binding.clContainer.setOnClickListener(onClickListener);
+
+        if(user.isChecked()) {
+            binding.clContainer.setBackgroundColor(Color.argb(0, 255, 255, 204));
+        } else {
+            binding.clContainer.setBackgroundColor(Color.TRANSPARENT);
+        }
     }
 
     @Override

@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.hoony.androidsample.R;
 import com.hoony.androidsample.databinding.ActivityRoomBinding;
 import com.hoony.androidsample.db.pet.Pet;
-import com.hoony.androidsample.db.user.User;
+import com.hoony.androidsample.room.POJO.CheckableUser;
 
 import java.util.List;
 
@@ -30,9 +30,9 @@ public class RoomActivity extends AppCompatActivity implements View.OnClickListe
 
         viewModel = ViewModelProvider.AndroidViewModelFactory.getInstance(getApplication()).create(RoomViewModel.class);
 
-        viewModel.getUserList().observe(RoomActivity.this, new Observer<List<User>>() {
+        viewModel.getUserList().observe(RoomActivity.this, new Observer<List<CheckableUser>>() {
             @Override
-            public void onChanged(List<User> users) {
+            public void onChanged(List<CheckableUser> users) {
                 binding.svUser.setAdapter(new UserAdapter(users, RoomActivity.this));
             }
         });
@@ -66,7 +66,7 @@ public class RoomActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         int index = (int) v.getTag();
-        loadPetData(index );
+        loadPetData(index);
     }
 
     @Override

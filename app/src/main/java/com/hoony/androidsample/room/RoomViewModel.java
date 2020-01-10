@@ -8,7 +8,9 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.hoony.androidsample.db.pet.Pet;
 import com.hoony.androidsample.db.user.User;
+import com.hoony.androidsample.room.POJO.CheckableUser;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class RoomViewModel extends AndroidViewModel
@@ -22,9 +24,9 @@ public class RoomViewModel extends AndroidViewModel
         roomRepository = RoomRepository.getInstance(application);
     }
 
-    private MutableLiveData<List<User>> userList = new MutableLiveData<>();
+    private MutableLiveData<List<CheckableUser>> userList = new MutableLiveData<>();
 
-    MutableLiveData<List<User>> getUserList() {
+    MutableLiveData<List<CheckableUser>> getUserList() {
         return userList;
     }
 
@@ -44,7 +46,15 @@ public class RoomViewModel extends AndroidViewModel
 
     @Override
     public void onUserDataLoadingComplete(List<User> result) {
-        userList.setValue(result);
+
+        List<CheckableUser> checkableUserList = new ArrayList<>();
+        for (User user : result) {
+            CheckableUser checkableUser = new CheckableUser(user.getName());
+            checkableUser.setChecked(false);
+            checkableUserList.add(checkableUser);
+        }
+
+        userList.setValue(checkableUserList);
     }
 
     @Override
