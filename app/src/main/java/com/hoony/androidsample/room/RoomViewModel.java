@@ -17,31 +17,46 @@ public class RoomViewModel extends AndroidViewModel
         implements UserLoadingTask.Callback<List<User>>,
         PetLoadingTask.callback {
 
-    private final RoomRepository roomRepository;
-
     public RoomViewModel(@NonNull Application application) {
         super(application);
         roomRepository = RoomRepository.getInstance(application);
     }
 
+    private final RoomRepository roomRepository;
+
     private MutableLiveData<List<CheckableUser>> userList = new MutableLiveData<>();
+    private MutableLiveData<List<Pet>> petList = new MutableLiveData<>();
 
     MutableLiveData<List<CheckableUser>> getUserList() {
         return userList;
+    }
+
+    MutableLiveData<List<Pet>> getPetList() {
+        return petList;
     }
 
     void loadUserList() {
         roomRepository.getUserList(RoomViewModel.this);
     }
 
-    private MutableLiveData<List<Pet>> petList = new MutableLiveData<>();
-
-    MutableLiveData<List<Pet>> getPetList() {
-        return petList;
-    }
-
     void loadPetList(int index) {
         roomRepository.getPetList(index, RoomViewModel.this);
+    }
+
+    void userCheck(int checkedIndex) {
+        if (userList.getValue() == null) return;
+
+        List<CheckableUser> checkableUserList = userList.getValue();
+
+        for (CheckableUser user : checkableUserList) {
+            if (user.isChecked()) {
+                user.setChecked(false);
+                break;
+            }
+        }
+
+        checkableUserList.get(checkedIndex - 1).setChecked(true);
+        userList.setValue(checkableUserList);
     }
 
     @Override
@@ -50,6 +65,7 @@ public class RoomViewModel extends AndroidViewModel
         List<CheckableUser> checkableUserList = new ArrayList<>();
         for (User user : result) {
             CheckableUser checkableUser = new CheckableUser(user.getName());
+            checkableUser.setIndex(user.getIndex());
             checkableUser.setChecked(false);
             checkableUserList.add(checkableUser);
         }
