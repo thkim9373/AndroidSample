@@ -33,7 +33,11 @@ public class RoomActivity extends AppCompatActivity implements View.OnClickListe
         viewModel.getUserList().observe(RoomActivity.this, new Observer<List<CheckableUser>>() {
             @Override
             public void onChanged(List<CheckableUser> users) {
-                binding.svUser.setAdapter(new UserAdapter(users, RoomActivity.this));
+                if (binding.svUser.getAdapter() == null) {
+                    binding.svUser.setAdapter(new UserAdapter(users, RoomActivity.this));
+                } else {
+                    ((UserAdapter) binding.svUser.getAdapter()).setUserList(users);
+                }
             }
         });
         viewModel.getPetList().observe(RoomActivity.this, new Observer<List<Pet>>() {

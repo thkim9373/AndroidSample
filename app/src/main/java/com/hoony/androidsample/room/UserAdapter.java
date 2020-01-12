@@ -17,7 +17,7 @@ import java.util.List;
 
 public class UserAdapter extends RecyclerView.Adapter {
 
-    private final List<CheckableUser> userList;
+    private List<CheckableUser> userList;
     private final View.OnClickListener onClickListener;
 
     UserAdapter(List<CheckableUser> userList, View.OnClickListener onClickListener) {
@@ -53,6 +53,11 @@ public class UserAdapter extends RecyclerView.Adapter {
     @Override
     public int getItemCount() {
         return userList.size();
+    }
+
+    void setUserList(List<CheckableUser> userList) {
+        this.userList = userList;
+        this.notifyDataSetChanged();
     }
 
     private class ItemHolder extends RecyclerView.ViewHolder {
