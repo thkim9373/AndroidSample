@@ -44,7 +44,7 @@ public class UserAdapter extends RecyclerView.Adapter {
         binding.clContainer.setOnClickListener(onClickListener);
 
         if(user.isChecked()) {
-            binding.clContainer.setBackgroundColor(Color.argb(0, 255, 255, 204));
+            binding.clContainer.setBackgroundColor(Color.argb(255, 255, 255, 204));
         } else {
             binding.clContainer.setBackgroundColor(Color.TRANSPARENT);
         }
