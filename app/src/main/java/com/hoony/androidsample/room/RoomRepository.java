@@ -30,13 +30,18 @@ class RoomRepository {
         mPetDao = database.petDao();
     }
 
-    void getUserList(UserLoadingTask.Callback<List<User>> callback) {
+    void getUserList(GetUserListTask.Callback<List<User>> callback) {
         TaskRunner taskRunner = new TaskRunner();
-        taskRunner.executeUserTaskAsync(new UserLoadingTask(mUserDao), callback);
+        taskRunner.executeUserTaskAsync(new GetUserListTask(mUserDao), callback);
     }
 
-    void getPetList(final int index, final PetLoadingTask.callback callback) {
+    void getPetList(final int index, final GetPetListTask.GetPetListTaskCallback GetPetListTaskCallback) {
         TaskRunner taskRunner = new TaskRunner();
-        taskRunner.executePetTaskAsync(new PetLoadingTask(mPetDao, index), callback);
+        taskRunner.executePetTaskAsync(new GetPetListTask(mPetDao, index), GetPetListTaskCallback);
+    }
+
+    void getAllPetList(final GetAllPetListTask.GetAllPetListCallback callback) {
+        TaskRunner taskRunner = new TaskRunner();
+        taskRunner.executeGetAllPetListAsync(new GetAllPetListTask(mPetDao), callback);
     }
 }

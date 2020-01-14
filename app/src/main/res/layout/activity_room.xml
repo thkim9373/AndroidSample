@@ -6,33 +6,124 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:padding="16dp"
         tools:context=".room.RoomActivity">
 
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/gl_hor_60"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.6" />
+
+        <TextView
+            android:id="@+id/tv_room_example"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/room_example"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_user_list"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/user_list"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_room_example" />
+
+        <TextView
+            android:id="@+id/tv_pet_list"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/pet_list"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@id/view_ver_divider"
+            app:layout_constraintTop_toBottomOf="@id/tv_room_example" />
+
         <View
-            android:id="@+id/view_divider"
+            android:id="@+id/view_hor_divider"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginTop="4dp"
+            android:background="#bbbbbb"
+            app:layout_constraintTop_toBottomOf="@id/tv_user_list"
+            tools:layout_editor_absoluteX="16dp" />
+
+        <View
+            android:id="@+id/view_ver_divider"
             android:layout_width="2dp"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
             android:background="#bbbbbb"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.4"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/view_hor_divider" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/sv_user"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toStartOf="@id/view_divider"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@id/gl_hor_60"
+            app:layout_constraintEnd_toStartOf="@id/view_ver_divider"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/view_hor_divider" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/sv_pet"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@id/gl_hor_60"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@id/view_divider"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintStart_toStartOf="@id/view_ver_divider"
+            app:layout_constraintTop_toBottomOf="@+id/view_hor_divider" />
+
+        <View
+            android:id="@+id/view_divider_gl_60"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="#bbbbbb"
+            app:layout_constraintTop_toTopOf="@id/gl_hor_60" />
+
+        <ScrollView
+            android:id="@+id/sv_content"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:fillViewport="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/gl_hor_60">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_contents_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="8dp">
+
+                <TextView
+                    android:id="@+id/tv_user_content"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintWidth_percent="0.38"
+                    tools:text="User contents" />
+
+                <TextView
+                    android:id="@+id/tv_pet_content"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintWidth_percent="0.57"
+                    tools:text="Pet contents" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

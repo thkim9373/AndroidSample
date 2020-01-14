@@ -46,6 +46,15 @@ public class Pet {
         return kind;
     }
 
+    @NonNull
+    public String toString() {
+        return "Pet{" +
+                "index=" + index +
+                ", name='" + name + '\'' +
+                ", kind='" + kind + '\'' +
+                '}';
+    }
+
     public static Pet[] petData() {
         return new Pet[]{
                 new Pet(1, "A", "Cat"),

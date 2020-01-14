@@ -18,7 +18,7 @@ import com.hoony.androidsample.room.POJO.CheckableUser;
 
 import java.util.List;
 
-public class RoomActivity extends AppCompatActivity implements View.OnClickListener {
+public class RoomActivity extends AppCompatActivity implements View.OnClickListener, View.OnLongClickListener {
 
     private ActivityRoomBinding binding;
     private RoomViewModel viewModel;
@@ -34,10 +34,12 @@ public class RoomActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onChanged(List<CheckableUser> users) {
                 if (binding.svUser.getAdapter() == null) {
-                    binding.svUser.setAdapter(new UserAdapter(users, RoomActivity.this));
+                    binding.svUser.setAdapter(new UserAdapter(users, RoomActivity.this, RoomActivity.this));
                 } else {
                     ((UserAdapter) binding.svUser.getAdapter()).setUserList(users);
                 }
+
+                binding.tvUserContent.setText(users.toString());
             }
         });
         viewModel.getPetList().observe(RoomActivity.this, new Observer<List<Pet>>() {
@@ -46,9 +48,16 @@ public class RoomActivity extends AppCompatActivity implements View.OnClickListe
                 binding.svPet.setAdapter(new PetAdapter(pets));
             }
         });
+        viewModel.getAllPetList().observe(RoomActivity.this, new Observer<List<Pet>>() {
+            @Override
+            public void onChanged(List<Pet> pets) {
+                binding.tvPetContent.setText(pets.toString());
+            }
+        });
 
         setView();
         loadUSerData();
+        loadAllPetData();
     }
 
     private void setView() {
@@ -63,6 +72,10 @@ public class RoomActivity extends AppCompatActivity implements View.OnClickListe
         if (binding.svUser.getAdapter() == null) viewModel.loadUserList();
     }
 
+    private void loadAllPetData() {
+        viewModel.loadAllPetList();
+    }
+
     private void loadPetData(int index) {
         viewModel.loadPetList(index);
     }
@@ -74,6 +87,15 @@ public class RoomActivity extends AppCompatActivity implements View.OnClickListe
         loadPetData(index);
 
         viewModel.userCheck(index);
+    }
+
+    @Override
+    public boolean onLongClick(View view) {
+        int index = (int) view.getTag();
+
+
+
+        return false;
     }
 
     @Override

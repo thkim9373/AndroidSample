@@ -6,11 +6,11 @@ import com.hoony.androidsample.db.user.UserDao;
 import java.util.List;
 import java.util.concurrent.Callable;
 
-public class UserLoadingTask implements Callable<List<User>> {
+public class GetUserListTask implements Callable<List<User>> {
 
     private final UserDao userDao;
 
-    UserLoadingTask(UserDao userDao) {
+    GetUserListTask(UserDao userDao) {
         this.userDao = userDao;
     }
 
@@ -27,12 +27,12 @@ public class UserLoadingTask implements Callable<List<User>> {
 
 //    private final AppDatabase appDatabase;
 //
-//    UserLoadingTask(AppDatabase appDatabase) {
+//    GetUserListTask(AppDatabase appDatabase) {
 //        this.appDatabase = appDatabase;
 //    }
 //
 //    @Override
 //    public List<User> call() {
-//        return appDatabase.userDao().getAll();
+//        return appDatabase.userDao().getMatchingPetList();
 //    }
 }

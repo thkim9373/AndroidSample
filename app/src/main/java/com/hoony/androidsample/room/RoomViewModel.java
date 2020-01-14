@@ -14,8 +14,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RoomViewModel extends AndroidViewModel
-        implements UserLoadingTask.Callback<List<User>>,
-        PetLoadingTask.callback {
+        implements GetUserListTask.Callback<List<User>>,
+        GetPetListTask.GetPetListTaskCallback,
+        GetAllPetListTask.GetAllPetListCallback {
 
     public RoomViewModel(@NonNull Application application) {
         super(application);
@@ -85,6 +86,26 @@ public class RoomViewModel extends AndroidViewModel
 
     @Override
     public void onPetListLoadingFail(Exception e) {
+
+    }
+
+    MutableLiveData<List<Pet>> allPetList = new MutableLiveData<>();
+
+    public MutableLiveData<List<Pet>> getAllPetList() {
+        return allPetList;
+    }
+
+    void loadAllPetList() {
+        roomRepository.getAllPetList(RoomViewModel.this);
+    }
+
+    @Override
+    public void onAllPetListGetComplete(List<Pet> petList) {
+        allPetList.setValue(petList);
+    }
+
+    @Override
+    public void onAllPetListGetFail(Exception e) {
 
     }
 }

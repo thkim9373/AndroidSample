@@ -19,10 +19,14 @@ public class UserAdapter extends RecyclerView.Adapter {
 
     private List<CheckableUser> userList;
     private final View.OnClickListener onClickListener;
+    private final View.OnLongClickListener onLongClickListener;
 
-    UserAdapter(List<CheckableUser> userList, View.OnClickListener onClickListener) {
+    UserAdapter(List<CheckableUser> userList,
+                View.OnClickListener onClickListener,
+                View.OnLongClickListener onLongClickListener) {
         this.userList = userList;
         this.onClickListener = onClickListener;
+        this.onLongClickListener = onLongClickListener;
     }
 
     @NonNull
@@ -42,8 +46,9 @@ public class UserAdapter extends RecyclerView.Adapter {
         binding.tvContent.setText(content);
         binding.clContainer.setTag(user.getIndex());
         binding.clContainer.setOnClickListener(onClickListener);
+        binding.clContainer.setOnLongClickListener(onLongClickListener);
 
-        if(user.isChecked()) {
+        if (user.isChecked()) {
             binding.clContainer.setBackgroundColor(Color.argb(255, 255, 255, 204));
         } else {
             binding.clContainer.setBackgroundColor(Color.TRANSPARENT);

@@ -21,4 +21,9 @@
     <string name="permission_close">Close</string>
 
     <string name="album_divider">|</string>
+
+    <!-- Room activity -->
+    <string name="room_example">Room Example</string>
+    <string name="user_list">User List</string>
+    <string name="pet_list">Pet List</string>
 </resources>
