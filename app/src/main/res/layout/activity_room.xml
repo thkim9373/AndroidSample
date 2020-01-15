@@ -10,11 +10,11 @@
         tools:context=".room.RoomActivity">
 
         <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/gl_hor_60"
+            android:id="@+id/gl_hor_40"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.6" />
+            app:layout_constraintGuide_percent="0.4" />
 
         <TextView
             android:id="@+id/tv_room_example"
@@ -43,7 +43,7 @@
             android:layout_marginTop="16dp"
             android:text="@string/pet_list"
             android:textStyle="bold"
-            app:layout_constraintStart_toEndOf="@id/view_ver_divider"
+            app:layout_constraintStart_toEndOf="@id/view_ver_list_divider"
             app:layout_constraintTop_toBottomOf="@id/tv_room_example" />
 
         <View
@@ -56,10 +56,11 @@
             tools:layout_editor_absoluteX="16dp" />
 
         <View
-            android:id="@+id/view_ver_divider"
+            android:id="@+id/view_ver_list_divider"
             android:layout_width="2dp"
             android:layout_height="0dp"
             android:background="#bbbbbb"
+            app:layout_constraintBottom_toTopOf="@id/gl_hor_40"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.4"
             app:layout_constraintStart_toStartOf="parent"
@@ -69,8 +70,8 @@
             android:id="@+id/sv_user"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:layout_constraintBottom_toTopOf="@id/gl_hor_60"
-            app:layout_constraintEnd_toStartOf="@id/view_ver_divider"
+            app:layout_constraintBottom_toTopOf="@id/gl_hor_40"
+            app:layout_constraintEnd_toStartOf="@id/view_ver_list_divider"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/view_hor_divider" />
 
@@ -78,9 +79,9 @@
             android:id="@+id/sv_pet"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:layout_constraintBottom_toTopOf="@id/gl_hor_60"
+            app:layout_constraintBottom_toTopOf="@id/gl_hor_40"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@id/view_ver_divider"
+            app:layout_constraintStart_toStartOf="@id/view_ver_list_divider"
             app:layout_constraintTop_toBottomOf="@+id/view_hor_divider" />
 
         <View
@@ -88,7 +89,53 @@
             android:layout_width="match_parent"
             android:layout_height="2dp"
             android:background="#bbbbbb"
-            app:layout_constraintTop_toTopOf="@id/gl_hor_60" />
+            app:layout_constraintTop_toTopOf="@id/gl_hor_40" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/et_layout_user"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/gl_hor_40">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="75dp"
+                android:layout_height="wrap_content"
+                android:hint="User" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/bt_user_action"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Action"
+            app:layout_constraintBottom_toBottomOf="@id/et_layout_user"
+            app:layout_constraintStart_toEndOf="@id/et_layout_user"
+            app:layout_constraintTop_toTopOf="@id/et_layout_user" />
+
+        <RadioGroup
+            android:id="@+id/rg_user"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="@id/bt_user_action"
+            app:layout_constraintStart_toEndOf="@id/bt_user_action"
+            app:layout_constraintTop_toTopOf="@id/bt_user_action">
+
+            <RadioButton
+                android:id="@+id/rb_add"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Add" />
+
+            <RadioButton
+                android:id="@+id/rb_remove"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Remove" />
+
+        </RadioGroup>
 
         <ScrollView
             android:id="@+id/sv_content"
@@ -96,7 +143,7 @@
             android:layout_height="0dp"
             android:fillViewport="true"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/gl_hor_60">
+            app:layout_constraintTop_toBottomOf="@id/et_layout_user">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/cl_contents_container"
@@ -112,6 +159,17 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintWidth_percent="0.38"
                     tools:text="User contents" />
+
+                <View
+                    android:id="@+id/view_ver_content_divider"
+                    android:layout_width="2dp"
+                    android:layout_height="0dp"
+                    android:background="#bbbbbb"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.4"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/tv_pet_content"
