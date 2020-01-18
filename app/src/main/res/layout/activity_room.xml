@@ -99,7 +99,7 @@
             app:layout_constraintTop_toBottomOf="@id/gl_hor_40">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="75dp"
+                android:layout_width="120dp"
                 android:layout_height="wrap_content"
                 android:hint="User" />
 
@@ -137,13 +137,73 @@
 
         </RadioGroup>
 
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/et_layout_pet_index"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/et_layout_user">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="60dp"
+                android:layout_height="wrap_content"
+                android:hint="Index" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/et_layout_pet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toEndOf="@id/et_layout_pet_index"
+            app:layout_constraintTop_toBottomOf="@id/et_layout_user">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="75dp"
+                android:layout_height="wrap_content"
+                android:hint="Pet" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/bt_pet_action"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Action"
+            app:layout_constraintBottom_toBottomOf="@id/et_layout_pet"
+            app:layout_constraintStart_toEndOf="@id/et_layout_pet"
+            app:layout_constraintTop_toTopOf="@id/et_layout_pet" />
+
+        <RadioGroup
+            android:id="@+id/rg_pet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="@id/bt_pet_action"
+            app:layout_constraintStart_toEndOf="@id/bt_pet_action"
+            app:layout_constraintTop_toTopOf="@id/bt_pet_action">
+
+            <RadioButton
+                android:id="@+id/rb_pet_add"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Add" />
+
+            <RadioButton
+                android:id="@+id/rb_pet_remove"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Remove" />
+
+        </RadioGroup>
+
         <ScrollView
             android:id="@+id/sv_content"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:fillViewport="true"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/et_layout_user">
+            app:layout_constraintTop_toBottomOf="@id/et_layout_pet">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/cl_contents_container"
