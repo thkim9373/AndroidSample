@@ -82,17 +82,41 @@ public class RoomActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        int index = (int) v.getTag();
+        int id = v.getId();
 
-        loadPetData(index);
+        if (id == R.id.bt_user_action) {
+            if (binding.etUser.getText() != null) {
+                if (binding.rgUser.getCheckedRadioButtonId() == R.id.rb_add) {
 
-        viewModel.userCheck(index);
+                } else {
+
+                }
+            } else {
+
+            }
+        } else if (id == R.id.bt_pet_action) {
+            if (binding.etPetIndex.getText() != null &&
+                    binding.etPetName.getText() != null) {
+                if (binding.rgPet.getCheckedRadioButtonId() == R.id.rb_pet_add) {
+
+                } else {
+
+                }
+            } else {
+
+            }
+        } else {
+            int index = (int) v.getTag();
+
+            loadPetData(index);
+
+            viewModel.userCheck(index);
+        }
     }
 
     @Override
     public boolean onLongClick(View view) {
         int index = (int) view.getTag();
-
 
 
         return false;
