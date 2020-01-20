@@ -78,5 +78,45 @@ class TaskRunner {
         });
     }
 
+    void executePetInsertTaskAsync(final Callable<List<Pet>> callable, final PetInsertTask.PetInsertTaskCallback callback) {
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                final List<Pet> result;
+                try {
+                    result = callable.call();
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            callback.onPetInsertTaskComplete(result);
+                        }
+                    });
+                } catch (final Exception e) {
+                    e.printStackTrace();
+                    callback.onPetInsertTaskFail(e);
+                }
+            }
+        });
+    }
 
+    void executePetDeleteTaskAsync(final Callable<List<Pet>> callable, final PetDeleteTask.PetDeleteTaskCallback callback) {
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                final List<Pet> result;
+                try {
+                    result = callable.call();
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            callback.onPetDeleteTaskComplete(result);
+                        }
+                    });
+                } catch (final Exception e) {
+                    e.printStackTrace();
+                    callback.onPetDeleteTaskFail(e);
+                }
+            }
+        });
+    }
 }

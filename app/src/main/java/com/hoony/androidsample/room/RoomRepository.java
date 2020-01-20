@@ -3,6 +3,7 @@ package com.hoony.androidsample.room;
 import android.app.Application;
 
 import com.hoony.androidsample.db.AppDatabase;
+import com.hoony.androidsample.db.pet.Pet;
 import com.hoony.androidsample.db.pet.PetDao;
 import com.hoony.androidsample.db.user.User;
 import com.hoony.androidsample.db.user.UserDao;
@@ -43,5 +44,15 @@ class RoomRepository {
     void getAllPetList(final GetAllPetListTask.GetAllPetListCallback callback) {
         TaskRunner taskRunner = new TaskRunner();
         taskRunner.executeGetAllPetListAsync(new GetAllPetListTask(mPetDao), callback);
+    }
+
+    void insertPet(Pet pet, final PetInsertTask.PetInsertTaskCallback callback) {
+        TaskRunner taskRunner = new TaskRunner();
+        taskRunner.executePetInsertTaskAsync(new PetInsertTask(mPetDao, pet), callback);
+    }
+
+    void deletePet(Pet pet, final PetDeleteTask.PetDeleteTaskCallback callback) {
+        TaskRunner taskRunner = new TaskRunner();
+        taskRunner.executePetDeleteTaskAsync(new PetDeleteTask(mPetDao, pet), callback);
     }
 }

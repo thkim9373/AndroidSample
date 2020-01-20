@@ -155,7 +155,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/et_layout_pet"
+            android:id="@+id/et_layout_pet_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toEndOf="@id/et_layout_pet_index"
@@ -165,7 +165,22 @@
                 android:id="@+id/et_pet_name"
                 android:layout_width="75dp"
                 android:layout_height="wrap_content"
-                android:hint="Pet" />
+                android:hint="Name" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/et_layout_pet_kind"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toEndOf="@id/et_layout_pet_name"
+            app:layout_constraintTop_toBottomOf="@id/et_layout_user">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_pet_kind"
+                android:layout_width="75dp"
+                android:layout_height="wrap_content"
+                android:hint="Kind" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -174,9 +189,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Action"
-            app:layout_constraintBottom_toBottomOf="@id/et_layout_pet"
-            app:layout_constraintStart_toEndOf="@id/et_layout_pet"
-            app:layout_constraintTop_toTopOf="@id/et_layout_pet" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/et_layout_pet_index" />
 
         <RadioGroup
             android:id="@+id/rg_pet"
@@ -208,7 +222,7 @@
             android:layout_height="0dp"
             android:fillViewport="true"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/et_layout_pet">
+            app:layout_constraintTop_toBottomOf="@id/bt_pet_action">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/cl_contents_container"

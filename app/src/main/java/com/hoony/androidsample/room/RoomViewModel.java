@@ -16,7 +16,9 @@ import java.util.List;
 public class RoomViewModel extends AndroidViewModel
         implements GetUserListTask.Callback<List<User>>,
         GetPetListTask.GetPetListTaskCallback,
-        GetAllPetListTask.GetAllPetListCallback {
+        GetAllPetListTask.GetAllPetListCallback,
+        PetInsertTask.PetInsertTaskCallback,
+        PetDeleteTask.PetDeleteTaskCallback {
 
     public RoomViewModel(@NonNull Application application) {
         super(application);
@@ -89,9 +91,9 @@ public class RoomViewModel extends AndroidViewModel
 
     }
 
-    MutableLiveData<List<Pet>> allPetList = new MutableLiveData<>();
+    private MutableLiveData<List<Pet>> allPetList = new MutableLiveData<>();
 
-    public MutableLiveData<List<Pet>> getAllPetList() {
+    MutableLiveData<List<Pet>> getAllPetList() {
         return allPetList;
     }
 
@@ -106,6 +108,34 @@ public class RoomViewModel extends AndroidViewModel
 
     @Override
     public void onAllPetListGetFail(Exception e) {
+
+    }
+
+    void insertPet(Pet pet) {
+        roomRepository.insertPet(pet, RoomViewModel.this);
+    }
+
+    @Override
+    public void onPetInsertTaskComplete(List<Pet> petList) {
+        allPetList.setValue(petList);
+    }
+
+    @Override
+    public void onPetInsertTaskFail(Exception e) {
+
+    }
+
+    void deletePet(Pet pet) {
+        roomRepository.deletePet(pet, RoomViewModel.this);
+    }
+
+    @Override
+    public void onPetDeleteTaskComplete(List<Pet> petList) {
+        allPetList.setValue(petList);
+    }
+
+    @Override
+    public void onPetDeleteTaskFail(Exception e) {
 
     }
 }

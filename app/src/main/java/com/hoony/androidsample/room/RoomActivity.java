@@ -15,6 +15,7 @@ import com.hoony.androidsample.R;
 import com.hoony.androidsample.databinding.ActivityRoomBinding;
 import com.hoony.androidsample.db.pet.Pet;
 import com.hoony.androidsample.room.POJO.CheckableUser;
+import com.hoony.androidsample.util.ToastViewer;
 
 import java.util.List;
 
@@ -96,14 +97,19 @@ public class RoomActivity extends AppCompatActivity implements View.OnClickListe
             }
         } else if (id == R.id.bt_pet_action) {
             if (binding.etPetIndex.getText() != null &&
-                    binding.etPetName.getText() != null) {
+                    binding.etPetName.getText() != null &&
+                    binding.etPetKind.getText() != null) {
+                int petIndex = Integer.parseInt(binding.etPetIndex.getText().toString());
+                String petName = binding.etPetName.getText().toString();
+                String petKind = binding.etPetKind.getText().toString();
+                Pet pet = new Pet(petIndex, petName, petKind);
                 if (binding.rgPet.getCheckedRadioButtonId() == R.id.rb_pet_add) {
-
+                    viewModel.insertPet(pet);
                 } else {
-
+                    viewModel.deletePet(pet);
                 }
             } else {
-
+                ToastViewer.showToast(RoomActivity.this, "Pet attributes is null!!!");
             }
         } else {
             int index = (int) v.getTag();
@@ -117,7 +123,6 @@ public class RoomActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public boolean onLongClick(View view) {
         int index = (int) view.getTag();
-
 
         return false;
     }
