@@ -1,6 +1,7 @@
 package com.hoony.androidsample.room;
 
 import android.app.Application;
+import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -14,11 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RoomViewModel extends AndroidViewModel
-        implements GetUserListTask.Callback<List<User>>,
-        GetPetListTask.GetPetListTaskCallback,
-        GetAllPetListTask.GetAllPetListCallback,
-        PetInsertTask.PetInsertTaskCallback,
-        PetDeleteTask.PetDeleteTaskCallback {
+        implements UserTask.UserTaskCallback, PetTask.PetTaskCallback {
 
     public RoomViewModel(@NonNull Application application) {
         super(application);
@@ -28,114 +25,103 @@ public class RoomViewModel extends AndroidViewModel
     private final RoomRepository roomRepository;
 
     private MutableLiveData<List<CheckableUser>> userList = new MutableLiveData<>();
-    private MutableLiveData<List<Pet>> petList = new MutableLiveData<>();
+    private MutableLiveData<List<Pet>> selectedPetList = new MutableLiveData<>();
+    private MutableLiveData<List<Pet>> allPetList = new MutableLiveData<>();
 
-    MutableLiveData<List<CheckableUser>> getUserList() {
-        return userList;
+    /*****************************************************
+     ******************* User Task ***********************
+     *****************************************************/
+
+    void getAllUserList() {
+        roomRepository.getAllUserListTask(RoomViewModel.this);
     }
 
-    MutableLiveData<List<Pet>> getPetList() {
-        return petList;
+    void insertUser(String name) {
+        roomRepository.insertUserTask(new User(name), RoomViewModel.this);
     }
 
-    void loadUserList() {
-        roomRepository.getUserList(RoomViewModel.this);
+    void deleteUser() {
+        if (isNull(getCheckedUser())) return;
+        roomRepository.deleteUserTask(new User(getCheckedUser().getName()), RoomViewModel.this);
     }
 
-    void loadPetList(int index) {
-        roomRepository.getPetList(index, RoomViewModel.this);
+    /*****************************************************
+     ******************* Pet Task ************************
+     *****************************************************/
+
+    void getAllPetList() {
+        roomRepository.getAllPetListTask(RoomViewModel.this);
     }
 
-    void userCheck(int checkedIndex) {
-        if (userList.getValue() == null) return;
+    void getSelectedPetList() {
+        if (isNull(getCheckedUser())) return;
+        roomRepository.getSelectedPetListTask(getCheckedUser().getName(), RoomViewModel.this);
+    }
 
-        List<CheckableUser> checkableUserList = userList.getValue();
+    void insertPet(String petName) {
+        if (isNull(getCheckedUser())) return;
+        roomRepository.insertPetTask(new Pet(getCheckedUser().getName(), petName), RoomViewModel.this);
+    }
 
-        for (CheckableUser user : checkableUserList) {
-            if (user.isChecked()) {
-                user.setChecked(false);
-                break;
+    void deletePet(String petName) {
+        if (isNull(getCheckedUser())) return;
+        roomRepository.deletePetTask(new Pet(getCheckedUser().getName(), petName), RoomViewModel.this);
+    }
+
+    @Override
+    public void onPetTaskComplete(List<Pet> petList) {
+
+    }
+
+    @Override
+    public void onPetTaskFail(Exception e) {
+
+    }
+
+    @Override
+    public void onUserTaskComplete(List<User> userList) {
+        List<CheckableUser> checkableUserList = convertCheckableUserList(userList);
+        this.userList.setValue(checkableUserList);
+    }
+
+    @Override
+    public void onUserTaskFail(Exception e) {
+
+    }
+
+    private List<CheckableUser> convertCheckableUserList(List<User> userList) {
+        List<CheckableUser> result = new ArrayList<>();
+
+        CheckableUser checkedUser = getCheckedUser();
+        if (!isNull(checkedUser)) {
+            for (User user : userList) {
+                CheckableUser checkableUser = new CheckableUser(user.getName());
+                if (TextUtils.equals(checkedUser.getName(), checkableUser.getName())) {
+                    checkableUser.setChecked(true);
+                }
+                result.add(new CheckableUser(user.getName()));
+            }
+        } else {
+            for (User user : userList) {
+                result.add(new CheckableUser(user.getName()));
             }
         }
 
-        checkableUserList.get(checkedIndex - 1).setChecked(true);
-        userList.setValue(checkableUserList);
+        return result;
     }
 
-    @Override
-    public void onUserDataLoadingComplete(List<User> result) {
+    private CheckableUser getCheckedUser() {
+        if (isNull(userList.getValue())) return null;
 
-        List<CheckableUser> checkableUserList = new ArrayList<>();
-        for (User user : result) {
-            CheckableUser checkableUser = new CheckableUser(user.getName());
-            checkableUser.setIndex(user.getIndex());
-            checkableUser.setChecked(false);
-            checkableUserList.add(checkableUser);
+        for (CheckableUser checkableUser : this.userList.getValue()) {
+            if (checkableUser.isChecked()) {
+                return checkableUser;
+            }
         }
-
-        userList.setValue(checkableUserList);
+        return null;
     }
 
-    @Override
-    public void onUserDataLoadingFail(Exception e) {
-
-    }
-
-    @Override
-    public void onPetListLoadingComplete(List<Pet> result) {
-        petList.setValue(result);
-    }
-
-    @Override
-    public void onPetListLoadingFail(Exception e) {
-
-    }
-
-    private MutableLiveData<List<Pet>> allPetList = new MutableLiveData<>();
-
-    MutableLiveData<List<Pet>> getAllPetList() {
-        return allPetList;
-    }
-
-    void loadAllPetList() {
-        roomRepository.getAllPetList(RoomViewModel.this);
-    }
-
-    @Override
-    public void onAllPetListGetComplete(List<Pet> petList) {
-        allPetList.setValue(petList);
-    }
-
-    @Override
-    public void onAllPetListGetFail(Exception e) {
-
-    }
-
-    void insertPet(Pet pet) {
-        roomRepository.insertPet(pet, RoomViewModel.this);
-    }
-
-    @Override
-    public void onPetInsertTaskComplete(List<Pet> petList) {
-        allPetList.setValue(petList);
-    }
-
-    @Override
-    public void onPetInsertTaskFail(Exception e) {
-
-    }
-
-    void deletePet(Pet pet) {
-        roomRepository.deletePet(pet, RoomViewModel.this);
-    }
-
-    @Override
-    public void onPetDeleteTaskComplete(List<Pet> petList) {
-        allPetList.setValue(petList);
-    }
-
-    @Override
-    public void onPetDeleteTaskFail(Exception e) {
-
+    private boolean isNull(Object o) {
+        return o == null;
     }
 }

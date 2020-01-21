@@ -9,31 +9,32 @@ import androidx.room.Index;
 import com.hoony.androidsample.db.user.User;
 
 @Entity(tableName = "PET",
-        primaryKeys = {"index", "name", "kind"},
+        primaryKeys = {"user_name", "name"},
         indices = {@Index(value = "index")},
         foreignKeys = @ForeignKey(
                 entity = User.class,
-                parentColumns = "index",
-                childColumns = "index",
+                parentColumns = "name",
+                childColumns = "user_name",
                 onDelete = ForeignKey.CASCADE))
 public class Pet {
-    @ColumnInfo(name = "index")
-    private int index;
+    @NonNull
+    @ColumnInfo(name = "user_name")
+    private String userName;
     @NonNull
     @ColumnInfo(name = "name")
     private String name;
-    @NonNull
-    @ColumnInfo(name = "kind")
-    private String kind;
 
-    public Pet(int index, @NonNull String name, @NonNull String kind) {
-        this.index = index;
+    public Pet(String userName, @NonNull String name) {
+        this.userName = userName;
         this.name = name;
-        this.kind = kind;
     }
 
-    int getIndex() {
-        return index;
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     @NonNull
@@ -41,37 +42,27 @@ public class Pet {
         return name;
     }
 
-    @NonNull
-    public String getKind() {
-        return kind;
-    }
-
-    @NonNull
-    public String toString() {
-        return "Pet{" +
-                "index=" + index +
-                ", name='" + name + '\'' +
-                ", kind='" + kind + '\'' +
-                '}';
+    public void setName(@NonNull String name) {
+        this.name = name;
     }
 
     public static Pet[] petData() {
         return new Pet[]{
-                new Pet(1, "A", "Cat"),
-                new Pet(2, "B", "Dog"),
-                new Pet(2, "C", "Cat"),
-                new Pet(3, "D", "Dog"),
-                new Pet(3, "E", "Dog"),
-                new Pet(3, "F", "Cat"),
-                new Pet(4, "G", "Camel"),
-                new Pet(4, "H", "Dog"),
-                new Pet(4, "I", "Fish"),
-                new Pet(4, "J", "Cat"),
-                new Pet(5, "K", "Cat"),
-                new Pet(5, "L", "Dog"),
-                new Pet(5, "M", "Fish"),
-                new Pet(5, "N", "Bird"),
-                new Pet(5, "O", "Horse"),
+                new Pet("Paul", "A"),
+                new Pet("Jane", "B"),
+                new Pet("Jane", "C"),
+                new Pet("John", "D"),
+                new Pet("John", "E"),
+                new Pet("John", "F"),
+                new Pet("Andrew", "G"),
+                new Pet("Andrew", "H"),
+                new Pet("Andrew", "I"),
+                new Pet("Andrew", "J"),
+                new Pet("Derk", "K"),
+                new Pet("Derk", "L"),
+                new Pet("Derk", "M"),
+                new Pet("Derk", "N"),
+                new Pet("Derk", "O"),
         };
     }
 }

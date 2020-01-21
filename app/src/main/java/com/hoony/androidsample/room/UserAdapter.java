@@ -40,11 +40,10 @@ public class UserAdapter extends RecyclerView.Adapter {
         ItemSingleTextViewBinding binding = ((ItemHolder) holder).getBinding();
         CheckableUser user = userList.get(position);
 
-        String content = "Index : " + user.getIndex() + "\n" +
-                "Name : " + user.getName();
+        String content = "Name : " + user.getName();
 
         binding.tvContent.setText(content);
-        binding.clContainer.setTag(user.getIndex());
+        binding.clContainer.setTag(position);
         binding.clContainer.setOnClickListener(onClickListener);
         binding.clContainer.setOnLongClickListener(onLongClickListener);
 

@@ -59,6 +59,7 @@ public class RoomActivity extends AppCompatActivity implements View.OnClickListe
         setView();
         loadUSerData();
         loadAllPetData();
+        setListener();
     }
 
     private void setView() {
@@ -77,6 +78,11 @@ public class RoomActivity extends AppCompatActivity implements View.OnClickListe
         viewModel.loadAllPetList();
     }
 
+    private void setListener() {
+        binding.btUserAction.setOnClickListener(RoomActivity.this);
+        binding.btPetAction.setOnClickListener(RoomActivity.this);
+    }
+
     private void loadPetData(int index) {
         viewModel.loadPetList(index);
     }
@@ -87,13 +93,14 @@ public class RoomActivity extends AppCompatActivity implements View.OnClickListe
 
         if (id == R.id.bt_user_action) {
             if (binding.etUser.getText() != null) {
+                String userName = binding.etUser.getText().toString();
                 if (binding.rgUser.getCheckedRadioButtonId() == R.id.rb_add) {
-
+                    viewModel.insertUser(userName);
                 } else {
-
+                    viewModel.deleteCheckedUser();
                 }
             } else {
-
+                ToastViewer.showToast(RoomActivity.this, "User attributes is null!!!");
             }
         } else if (id == R.id.bt_pet_action) {
             if (binding.etPetIndex.getText() != null &&
@@ -112,17 +119,17 @@ public class RoomActivity extends AppCompatActivity implements View.OnClickListe
                 ToastViewer.showToast(RoomActivity.this, "Pet attributes is null!!!");
             }
         } else {
-            int index = (int) v.getTag();
+            int position = (int) v.getTag();
 
-            loadPetData(index);
+            loadPetData(position);
 
-            viewModel.userCheck(index);
+            viewModel.userCheck(position);
         }
     }
 
     @Override
     public boolean onLongClick(View view) {
-        int index = (int) view.getTag();
+//        int index = (int) view.getTag();
 
         return false;
     }
