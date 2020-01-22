@@ -4,13 +4,12 @@ import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
-import androidx.room.Index;
 
 import com.hoony.androidsample.db.user.User;
 
+//indices = {@Index(value = "index")},
 @Entity(tableName = "PET",
         primaryKeys = {"user_name", "name"},
-        indices = {@Index(value = "index")},
         foreignKeys = @ForeignKey(
                 entity = User.class,
                 parentColumns = "name",
@@ -24,17 +23,14 @@ public class Pet {
     @ColumnInfo(name = "name")
     private String name;
 
-    public Pet(String userName, @NonNull String name) {
+    public Pet(@NonNull String userName, @NonNull String name) {
         this.userName = userName;
         this.name = name;
     }
 
+    @NonNull
     public String getUserName() {
         return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
     }
 
     @NonNull
@@ -44,6 +40,15 @@ public class Pet {
 
     public void setName(@NonNull String name) {
         this.name = name;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return "Pet{" + "\n" +
+                "   userName='" + userName + '\'' + "\n" +
+                "   , name='" + name + '\'' + "\n" +
+                '}';
     }
 
     public static Pet[] petData() {

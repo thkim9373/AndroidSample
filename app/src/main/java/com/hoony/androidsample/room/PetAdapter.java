@@ -34,8 +34,7 @@ public class PetAdapter extends RecyclerView.Adapter {
         Pet pet = mList.get(position);
 
         String contents =
-                "Name : " + pet.getName() + "\n" +
-                        "Kind : " + pet.getKind();
+                "Name : " + pet.getName();
 
         binding.tvContent.setText(contents);
     }

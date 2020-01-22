@@ -28,11 +28,33 @@ public class RoomViewModel extends AndroidViewModel
     private MutableLiveData<List<Pet>> selectedPetList = new MutableLiveData<>();
     private MutableLiveData<List<Pet>> allPetList = new MutableLiveData<>();
 
+    MutableLiveData<List<CheckableUser>> getUserList() {
+        return userList;
+    }
+
+    MutableLiveData<List<Pet>> getSelectedPetList() {
+        return selectedPetList;
+    }
+
+    MutableLiveData<List<Pet>> getAllPetList() {
+        return allPetList;
+    }
+
+    void changeSelectedUser(int position) {
+        if (isNull(userList.getValue())) return;
+        if (getCheckedUser() != null) getCheckedUser().setChecked(false);
+        List<CheckableUser> checkableUserList = userList.getValue();
+        checkableUserList.get(position).setChecked(true);
+        userList.setValue(checkableUserList);
+
+        setSelectedPetList();
+    }
+
     /*****************************************************
      ******************* User Task ***********************
      *****************************************************/
 
-    void getAllUserList() {
+    void loadAllUserList() {
         roomRepository.getAllUserListTask(RoomViewModel.this);
     }
 
@@ -49,13 +71,8 @@ public class RoomViewModel extends AndroidViewModel
      ******************* Pet Task ************************
      *****************************************************/
 
-    void getAllPetList() {
+    void loadAllPetList() {
         roomRepository.getAllPetListTask(RoomViewModel.this);
-    }
-
-    void getSelectedPetList() {
-        if (isNull(getCheckedUser())) return;
-        roomRepository.getSelectedPetListTask(getCheckedUser().getName(), RoomViewModel.this);
     }
 
     void insertPet(String petName) {
@@ -70,7 +87,21 @@ public class RoomViewModel extends AndroidViewModel
 
     @Override
     public void onPetTaskComplete(List<Pet> petList) {
+        allPetList.setValue(petList);
 
+        setSelectedPetList();
+    }
+
+    private void setSelectedPetList() {
+        List<Pet> selectedPetList = new ArrayList<>();
+        if (!isNull(getCheckedUser()) && !isNull(allPetList.getValue())) {
+            for (Pet pet : allPetList.getValue()) {
+                if (TextUtils.equals(pet.getUserName(), getCheckedUser().getName())) {
+                    selectedPetList.add(pet);
+                }
+            }
+        }
+        this.selectedPetList.setValue(selectedPetList);
     }
 
     @Override
@@ -82,6 +113,8 @@ public class RoomViewModel extends AndroidViewModel
     public void onUserTaskComplete(List<User> userList) {
         List<CheckableUser> checkableUserList = convertCheckableUserList(userList);
         this.userList.setValue(checkableUserList);
+
+        loadAllPetList();
     }
 
     @Override
@@ -96,10 +129,12 @@ public class RoomViewModel extends AndroidViewModel
         if (!isNull(checkedUser)) {
             for (User user : userList) {
                 CheckableUser checkableUser = new CheckableUser(user.getName());
+
                 if (TextUtils.equals(checkedUser.getName(), checkableUser.getName())) {
                     checkableUser.setChecked(true);
                 }
-                result.add(new CheckableUser(user.getName()));
+
+                result.add(checkableUser);
             }
         } else {
             for (User user : userList) {

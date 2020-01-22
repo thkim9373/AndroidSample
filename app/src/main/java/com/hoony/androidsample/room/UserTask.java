@@ -7,20 +7,20 @@ import java.util.List;
 import java.util.concurrent.Callable;
 
 public class UserTask implements Callable<List<User>> {
-    public static final int GET_ALL = 989;
-    public static final int INSERT = 129;
-    public static final int DELETE = 671;
+    static final int GET_ALL = 989;
+    static final int INSERT = 129;
+    static final int DELETE = 671;
 
     private final UserDao mUserDao;
     private final int tag;
     private User user;
 
-    public UserTask(UserDao mUserDao, int tag) {
+    UserTask(UserDao mUserDao, int tag) {
         this.mUserDao = mUserDao;
         this.tag = tag;
     }
 
-    public UserTask(UserDao mUserDao, int tag, User user) {
+    UserTask(UserDao mUserDao, int tag, User user) {
         this.mUserDao = mUserDao;
         this.tag = tag;
         this.user = user;

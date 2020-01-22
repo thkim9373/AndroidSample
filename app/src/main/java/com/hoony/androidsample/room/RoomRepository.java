@@ -59,11 +59,6 @@ class RoomRepository {
         taskRunner.executePetTaskAsync(new PetTask(mPetDao, PetTask.GET_ALL), callback);
     }
 
-    void getSelectedPetListTask(@NonNull String userName, @NonNull final PetTask.PetTaskCallback callback) {
-        TaskRunner taskRunner = new TaskRunner();
-        taskRunner.executePetTaskAsync(new PetTask(mPetDao, PetTask.GET_SELECTED_PETS, userName), callback);
-    }
-
     void insertPetTask(@NonNull Pet pet, @NonNull final PetTask.PetTaskCallback callback) {
         TaskRunner taskRunner = new TaskRunner();
         taskRunner.executePetTaskAsync(new PetTask(mPetDao, PetTask.INSERT, pet), callback);

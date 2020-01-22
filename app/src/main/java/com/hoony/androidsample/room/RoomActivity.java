@@ -1,6 +1,7 @@
 package com.hoony.androidsample.room;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 
 import androidx.annotation.Nullable;
@@ -43,7 +44,7 @@ public class RoomActivity extends AppCompatActivity implements View.OnClickListe
                 binding.tvUserContent.setText(users.toString());
             }
         });
-        viewModel.getPetList().observe(RoomActivity.this, new Observer<List<Pet>>() {
+        viewModel.getSelectedPetList().observe(RoomActivity.this, new Observer<List<Pet>>() {
             @Override
             public void onChanged(List<Pet> pets) {
                 binding.svPet.setAdapter(new PetAdapter(pets));
@@ -56,13 +57,13 @@ public class RoomActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
 
-        setView();
-        loadUSerData();
+        setupView();
+        loadUserData();
         loadAllPetData();
         setListener();
     }
 
-    private void setView() {
+    private void setupView() {
         binding.svUser.setLayoutManager(new LinearLayoutManager(RoomActivity.this));
         binding.svUser.addItemDecoration(new DividerItemDecoration(RoomActivity.this, LinearLayoutManager.VERTICAL));
 
@@ -70,8 +71,8 @@ public class RoomActivity extends AppCompatActivity implements View.OnClickListe
         binding.svPet.addItemDecoration(new DividerItemDecoration(RoomActivity.this, LinearLayoutManager.VERTICAL));
     }
 
-    private void loadUSerData() {
-        if (binding.svUser.getAdapter() == null) viewModel.loadUserList();
+    private void loadUserData() {
+        if (binding.svUser.getAdapter() == null) viewModel.loadAllUserList();
     }
 
     private void loadAllPetData() {
@@ -83,47 +84,73 @@ public class RoomActivity extends AppCompatActivity implements View.OnClickListe
         binding.btPetAction.setOnClickListener(RoomActivity.this);
     }
 
-    private void loadPetData(int index) {
-        viewModel.loadPetList(index);
-    }
-
     @Override
     public void onClick(View v) {
         int id = v.getId();
 
-        if (id == R.id.bt_user_action) {
-            if (binding.etUser.getText() != null) {
-                String userName = binding.etUser.getText().toString();
-                if (binding.rgUser.getCheckedRadioButtonId() == R.id.rb_add) {
-                    viewModel.insertUser(userName);
+        switch (id) {
+            //  User item.
+            case R.id.cl_container:
+                int position = (int) v.getTag();
+                viewModel.changeSelectedUser(position);
+                break;
+            case R.id.bt_user_action:
+                if (isUserActionAdd()) {
+                    String userName = getUserName();
+                    if (!TextUtils.equals(userName, "")) {
+                        viewModel.insertUser(userName);
+                    } else {
+                        ToastViewer.showToast(RoomActivity.this, "Please enter a user name.");
+                    }
                 } else {
-                    viewModel.deleteCheckedUser();
+                    viewModel.deleteUser();
                 }
-            } else {
-                ToastViewer.showToast(RoomActivity.this, "User attributes is null!!!");
-            }
-        } else if (id == R.id.bt_pet_action) {
-            if (binding.etPetIndex.getText() != null &&
-                    binding.etPetName.getText() != null &&
-                    binding.etPetKind.getText() != null) {
-                int petIndex = Integer.parseInt(binding.etPetIndex.getText().toString());
-                String petName = binding.etPetName.getText().toString();
-                String petKind = binding.etPetKind.getText().toString();
-                Pet pet = new Pet(petIndex, petName, petKind);
-                if (binding.rgPet.getCheckedRadioButtonId() == R.id.rb_pet_add) {
-                    viewModel.insertPet(pet);
+                break;
+            case R.id.bt_pet_action:
+                if (isPetActionAdd()) {
+                    String petName = getPetName();
+                    if (!TextUtils.equals(petName, "")) {
+                        viewModel.insertPet(petName);
+                    } else {
+                        ToastViewer.showToast(RoomActivity.this, "Please enter a pet name.");
+                    }
                 } else {
-                    viewModel.deletePet(pet);
+                    String petName = getPetName();
+                    if (!TextUtils.equals(petName, "")) {
+                        viewModel.deletePet(petName);
+                    } else {
+                        ToastViewer.showToast(RoomActivity.this, "Please enter a pet name.");
+                    }
                 }
-            } else {
-                ToastViewer.showToast(RoomActivity.this, "Pet attributes is null!!!");
-            }
+                break;
+        }
+    }
+
+    private boolean isUserActionAdd() {
+        return binding.rgUser.getCheckedRadioButtonId() == R.id.rb_add;
+    }
+
+    private String getUserName() {
+        CharSequence userName = binding.etUser.getText();
+        if (userName != null && !TextUtils.equals(userName, "")) {
+            binding.etUser.setText("");
+            return String.valueOf(userName);
         } else {
-            int position = (int) v.getTag();
+            return null;
+        }
+    }
 
-            loadPetData(position);
+    private boolean isPetActionAdd() {
+        return binding.rgPet.getCheckedRadioButtonId() == R.id.rb_pet_add;
+    }
 
-            viewModel.userCheck(position);
+    private String getPetName() {
+        CharSequence petName = binding.etPetName.getText();
+        if (petName != null && !TextUtils.equals(petName, "")) {
+            binding.etPetName.setText("");
+            return String.valueOf(petName);
+        } else {
+            return null;
         }
     }
 

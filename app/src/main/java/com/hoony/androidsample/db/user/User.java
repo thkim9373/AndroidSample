@@ -8,26 +8,28 @@ import androidx.room.PrimaryKey;
 @Entity(tableName = "USER")
 public class User {
 
+    @NonNull
     @PrimaryKey
     @ColumnInfo(name = "name")
     private String name;
 
-    public User(String name) {
+    public User(@NonNull String name) {
         this.name = name;
     }
 
+    @NonNull
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(@NonNull String name) {
         this.name = name;
     }
 
     @NonNull
     public String toString() {
-        return "User{" +
-                ", name='" + name + '\'' +
+        return "User{" + "\n" +
+                "   name='" + name + '\'' + "\n" +
                 '}';
     }
 

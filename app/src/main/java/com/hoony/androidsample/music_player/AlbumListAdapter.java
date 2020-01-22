@@ -15,14 +15,12 @@ import com.hoony.androidsample.databinding.ItemAlbumBinding;
 
 import java.util.List;
 
-import javax.sql.ConnectionPoolDataSource;
-
 public class AlbumListAdapter extends RecyclerView.Adapter {
 
     private final List<AlbumData> mList;
     private Context mContext;
 
-    public AlbumListAdapter(List<AlbumData> albumDataList) {
+    AlbumListAdapter(List<AlbumData> albumDataList) {
         this.mList = albumDataList;
     }
 
@@ -41,7 +39,8 @@ public class AlbumListAdapter extends RecyclerView.Adapter {
         if (data.getAlbumArtUri() != null) {
             binding.ivAlbumArt.setVisibility(View.VISIBLE);
             Glide.with(mContext)
-                    .loadFromMediaStore(data.getAlbumArtUri())
+                    .load(data.getAlbumArtUri())
+//                    .loadFromMediaStore(data.getAlbumArtUri())
                     .thumbnail(0.5f)
                     .centerCrop()
                     .into(binding.ivAlbumArt);
@@ -62,7 +61,7 @@ public class AlbumListAdapter extends RecyclerView.Adapter {
 
         private ItemAlbumBinding binding;
 
-        public ItemViewHolder(@NonNull View itemView) {
+        ItemViewHolder(@NonNull View itemView) {
             super(itemView);
             binding = DataBindingUtil.bind(itemView);
         }
