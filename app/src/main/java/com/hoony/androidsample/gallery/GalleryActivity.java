@@ -98,8 +98,6 @@ public class GalleryActivity extends AppCompatActivity implements LoaderManager.
             );
         }
 
-        cursor.close();
-
         binding.rvGrid.setLayoutManager(new GridLayoutManager(GalleryActivity.this, 3));
         binding.rvGrid.setAdapter(new GalleryAdapter(imageDataList));
     }

@@ -103,8 +103,6 @@ public class MediaDataListActivity extends AppCompatActivity implements LoaderMa
             ));
         }
 
-        cursor.close();
-
         binding = DataBindingUtil.setContentView(MediaDataListActivity.this, R.layout.activity_album_data_list);
 
         binding.svAlbumData.setLayoutManager(new LinearLayoutManager(MediaDataListActivity.this));

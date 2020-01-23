@@ -98,8 +98,6 @@ public class MusicPlayerActivity extends AppCompatActivity implements LoaderMana
             );
         }
 
-        cursor.close();
-
         binding = DataBindingUtil.setContentView(MusicPlayerActivity.this, R.layout.activity_music_player);
 
         binding.svAlbum.setLayoutManager(new GridLayoutManager(MusicPlayerActivity.this, 2));

@@ -145,8 +145,6 @@ public class AddressBookListActivity extends AppCompatActivity implements Loader
             );
         }
 
-        cursor.close();
-
         binding = DataBindingUtil.setContentView(AddressBookListActivity.this, R.layout.activity_address_book_list);
 
         binding.svAddressBook.setLayoutManager(new LinearLayoutManager(AddressBookListActivity.this));
