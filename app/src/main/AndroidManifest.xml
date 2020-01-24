@@ -29,6 +29,7 @@
         <activity android:name=".media_data_list.MediaDataListActivity" />
         <activity android:name=".service.ServiceActivity" />
         <activity android:name=".room.RoomActivity" />
+        <activity android:name=".calculator.CalculatorActivity" />
 
         <service android:name=".service.CounterService" />
     </application>
