@@ -19,6 +19,7 @@ import com.hoony.androidsample.album_data_list.AlbumDataListActivity;
 import com.hoony.androidsample.media_data_list.MediaDataListActivity;
 import com.hoony.androidsample.music_player.MusicPlayerActivity;
 import com.hoony.androidsample.room.RoomActivity;
+import com.hoony.androidsample.timer_app_bar.TimerAppBarActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +27,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private final Class[] targetClassArray = {
+            TimerAppBarActivity.class,
             BottomSheetDialogActivity.class,
             AlbumDataListActivity.class,
             MediaDataListActivity.class,

@@ -41,7 +41,7 @@ public class CalculatorActivity extends AppCompatActivity implements View.OnClic
         binding.bt9.setOnClickListener(CalculatorActivity.this);
 
         binding.btAddition.setOnClickListener(CalculatorActivity.this);
-        binding.btSubtration.setOnClickListener(CalculatorActivity.this);
+//        binding.btSubtration.setOnClickListener(CalculatorActivity.this);
         binding.btMultiple.setOnClickListener(CalculatorActivity.this);
         binding.btEqual.setOnClickListener(CalculatorActivity.this);
     }
