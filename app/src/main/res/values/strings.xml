@@ -5,6 +5,7 @@
     <!--  Main activity  -->
     <string-array name="main_item_array">
         <item>Timer App Bar</item>
+        <item>Picture Loader</item>
         <item>Bottom Sheet Dialog</item>
         <item>Album Data List</item>
         <item>Media Data List</item>
