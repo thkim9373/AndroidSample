@@ -1,8 +1,12 @@
 package com.hoony.androidsample.picture_loader;
 
+import android.Manifest;
+import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Intent;
-import android.graphics.Bitmap;
+import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -10,6 +14,7 @@ import android.view.View;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.FileProvider;
 import androidx.databinding.DataBindingUtil;
 
 import com.bumptech.glide.Glide;
@@ -45,10 +50,16 @@ public class PictureLoaderActivity extends AppCompatActivity implements View.OnC
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.bt_camera) {
-            Intent intent = new Intent();
-            intent.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
-            if (intent.resolveActivity(getPackageManager()) != null) {
-                startActivityForResult(intent, CAMERA);
+//            Intent intent = new Intent();
+//            intent.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
+//            if (intent.resolveActivity(getPackageManager()) != null) {
+//                startActivityForResult(intent, CAMERA);
+//            }
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
+            } else {
+                sendTakePhotoIntent();
             }
         } else if (v.getId() == R.id.bt_gallery) {
             Intent intent = new Intent();
@@ -62,11 +73,11 @@ public class PictureLoaderActivity extends AppCompatActivity implements View.OnC
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == CAMERA && resultCode == RESULT_OK) {
-            if (data == null) return;
-            Bundle bundle = data.getExtras();
-            Bitmap bitmap = (Bitmap) bundle.get("data");
+//            if (data == null) return;
+//            Bundle bundle = data.getExtras();
+//            Bitmap bitmap = (Bitmap) bundle.get("data");
             Glide.with(PictureLoaderActivity.this)
-                    .load(bitmap)
+                    .load(photoUri)
                     .into(binding.ivPicture);
 
 //            Uri uri = data.getData();
@@ -79,6 +90,27 @@ public class PictureLoaderActivity extends AppCompatActivity implements View.OnC
         }
     }
 
+    private Uri photoUri;
+
+    private void sendTakePhotoIntent() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            File photoFile = null;
+            try {
+                photoFile = createImageFile();
+            } catch (IOException ex) {
+                // Error occurred while creating the File
+            }
+
+            if (photoFile != null) {
+                photoUri = FileProvider.getUriForFile(this, getPackageName(), photoFile);
+
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
+                startActivityForResult(takePictureIntent, CAMERA);
+            }
+        }
+    }
+
     String currentPhotoPath;
 
     private File createImageFile() throws IOException {
@@ -86,14 +118,52 @@ public class PictureLoaderActivity extends AppCompatActivity implements View.OnC
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
         String imageFileName = "JPEG_" + timeStamp + "_";
         File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+//        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         File image = File.createTempFile(
                 imageFileName,  /* prefix */
                 ".jpg",         /* suffix */
                 storageDir      /* directory */
         );
 
+        ContentResolver resolver = getContentResolver();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(MediaStore.MediaColumns.DISPLAY_NAME, imageFileName);
+        contentValues.put(MediaStore.MediaColumns.MIME_TYPE, "image/jpeg");
+        contentValues.put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_DCIM);
+
+        Uri uri = resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues);
+
         // Save a file: path for use with ACTION_VIEW intents
         currentPhotoPath = image.getAbsolutePath();
         return image;
     }
+
+
+//    private void sendTakePhotoIntent() {
+//        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+//        try {
+//            if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+//                photoUri = createImageUri();
+//
+//                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
+//                startActivityForResult(takePictureIntent, CAMERA);
+//            }
+//        } catch (IOException e) {
+//
+//        }
+//    }
+//
+//    private Uri createImageUri() throws IOException {
+//        // Create an image file name
+//        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
+//        String imageFileName = "JPEG_" + timeStamp + "_";
+//
+//        ContentResolver resolver = getContentResolver();
+//        ContentValues contentValues = new ContentValues();
+//        contentValues.put(MediaStore.MediaColumns.DISPLAY_NAME, imageFileName);
+//        contentValues.put(MediaStore.MediaColumns.MIME_TYPE, "image/jpeg");
+//        contentValues.put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_PICTURES);
+//
+//        return resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues);
+//    }
 }
