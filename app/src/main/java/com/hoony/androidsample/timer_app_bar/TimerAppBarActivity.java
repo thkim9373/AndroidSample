@@ -1,6 +1,7 @@
 package com.hoony.androidsample.timer_app_bar;
 
 import android.os.Bundle;
+import android.text.format.DateFormat;
 import android.view.View;
 
 import androidx.annotation.Nullable;
@@ -8,6 +9,10 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.hoony.androidsample.R;
 import com.hoony.androidsample.databinding.ActivityTimerAppBarBinding;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Locale;
 
 public class TimerAppBarActivity extends com.hoony.androidsample.util.TimerAppBarActivity implements View.OnClickListener {
     @Override
@@ -25,12 +30,22 @@ public class TimerAppBarActivity extends com.hoony.androidsample.util.TimerAppBa
         viewModel = ViewModelProvider.AndroidViewModelFactory.getInstance(getApplication()).create(TimerAppBarViewModel.class);
 
         setObserve();
-        viewModel.setDate();
         setListener();
     }
 
     private void setObserve() {
-        viewModel.getDateMutableLiveData().observe(TimerAppBarActivity.this, date -> binding.tvDate.setText(date));
+        viewModel.getDateGapLiveData().observe(TimerAppBarActivity.this, dateGap -> {
+            String date = getDate(dateGap);
+            binding.tvDate.setText(date);
+        });
+    }
+
+    private String getDate(int dateGap) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DATE, dateGap);
+
+        String dateFormat = DateFormat.getBestDateTimePattern(Locale.getDefault(), "yyyy/MM/dd");
+        return new SimpleDateFormat(dateFormat, Locale.getDefault()).format(calendar.getTime());
     }
 
     private void setListener() {
