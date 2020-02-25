@@ -3,7 +3,7 @@ package com.hoony.androidsample.util;
 import android.content.Context;
 import android.widget.Toast;
 
-public class ToastViewer {
+public class ToastPrinter {
     private static Toast TOAST;
 
     public static void showToast(Context context, String msg) {

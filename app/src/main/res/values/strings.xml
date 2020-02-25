@@ -4,6 +4,7 @@
 
     <!--  Main activity  -->
     <string-array name="main_item_array">
+        <item>Excel</item>
         <item>Timer App Bar</item>
         <item>Picture Loader</item>
         <item>Bottom Sheet Dialog</item>
@@ -33,4 +34,12 @@
     <string name="add">Add</string>
     <string name="delete">Delete</string>
     <string name="action">Action</string>
+
+    <!--  Excel Activity  -->
+    <string name="name">Name</string>
+    <string name="input_time">Input Time</string>
+    <string name="check_out">Check out</string>
+
+    <!--  Default  -->
+    <string name="confirm">Confirm</string>
 </resources>

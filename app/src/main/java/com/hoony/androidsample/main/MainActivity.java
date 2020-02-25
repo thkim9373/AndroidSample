@@ -14,6 +14,7 @@ import com.hoony.androidsample.R;
 import com.hoony.androidsample.VideoPlayerActivity;
 import com.hoony.androidsample.address_book.AddressBookListActivity;
 import com.hoony.androidsample.databinding.ActivityMainBinding;
+import com.hoony.androidsample.excel.ExcelActivity;
 import com.hoony.androidsample.gallery.GalleryActivity;
 import com.hoony.androidsample.album_data_list.AlbumDataListActivity;
 import com.hoony.androidsample.media_data_list.MediaDataListActivity;
@@ -28,6 +29,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private final Class[] targetClassArray = {
+            ExcelActivity.class,
             TimerAppBarActivity.class,
             PictureLoaderActivity.class,
             BottomSheetDialogActivity.class,

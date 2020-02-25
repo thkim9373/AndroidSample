@@ -39,6 +39,8 @@
             android:name=".timer_app_bar.TimerAppBarActivity"
             android:theme="@style/AppThemeNoActionBar" />
         <activity android:name=".picture_loader.PictureLoaderActivity" />
+        <activity android:name=".excel.ExcelActivity" />
+        <activity android:name=".excel.file_explorer.FileExplorerActivity" />
         <!--            android:name="android.support.v4.content.FileProvider"-->
         <provider
             android:name="androidx.core.content.FileProvider"

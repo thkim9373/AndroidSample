@@ -16,7 +16,7 @@ import com.hoony.androidsample.R;
 import com.hoony.androidsample.databinding.ActivityRoomBinding;
 import com.hoony.androidsample.db.pet.Pet;
 import com.hoony.androidsample.room.POJO.CheckableUser;
-import com.hoony.androidsample.util.ToastViewer;
+import com.hoony.androidsample.util.ToastPrinter;
 
 import java.util.List;
 
@@ -100,7 +100,7 @@ public class RoomActivity extends AppCompatActivity implements View.OnClickListe
                     if (!TextUtils.equals(userName, "")) {
                         viewModel.insertUser(userName);
                     } else {
-                        ToastViewer.showToast(RoomActivity.this, "Please enter a user name.");
+                        ToastPrinter.showToast(RoomActivity.this, "Please enter a user name.");
                     }
                 } else {
                     viewModel.deleteUser();
@@ -112,14 +112,14 @@ public class RoomActivity extends AppCompatActivity implements View.OnClickListe
                     if (!TextUtils.equals(petName, "")) {
                         viewModel.insertPet(petName);
                     } else {
-                        ToastViewer.showToast(RoomActivity.this, "Please enter a pet name.");
+                        ToastPrinter.showToast(RoomActivity.this, "Please enter a pet name.");
                     }
                 } else {
                     String petName = getPetName();
                     if (!TextUtils.equals(petName, "")) {
                         viewModel.deletePet(petName);
                     } else {
-                        ToastViewer.showToast(RoomActivity.this, "Please enter a pet name.");
+                        ToastPrinter.showToast(RoomActivity.this, "Please enter a pet name.");
                     }
                 }
                 break;
