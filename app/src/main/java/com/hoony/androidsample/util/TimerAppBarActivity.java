@@ -50,6 +50,7 @@ public abstract class TimerAppBarActivity extends AppCompatActivity {
             appBarTimerHandler.sendEmptyMessage(0);
         } catch (Exception e) {
             e.printStackTrace();
+
         }
     }
 
