@@ -7,6 +7,8 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
 
+import java.io.File;
+
 public class FileExplorerViewModel extends AndroidViewModel {
 
     public FileExplorerViewModel(@NonNull Application application) {
@@ -14,7 +16,12 @@ public class FileExplorerViewModel extends AndroidViewModel {
 
         filePathLiveData = new MutableLiveData<>();
         filePathLiveData.setValue(Environment.getRootDirectory().toString());
+
+        fileMutableLiveData = new MutableLiveData<>();
+        fileMutableLiveData.setValue(Environment.getRootDirectory());
     }
+
+    private MutableLiveData<File> fileMutableLiveData;
 
     private MutableLiveData<String> filePathLiveData;
 
@@ -24,5 +31,10 @@ public class FileExplorerViewModel extends AndroidViewModel {
 
     public void setFilePath(String filePath) {
         this.filePathLiveData.setValue(filePath);
+        File file;
+    }
+
+    public MutableLiveData<File> getFileMutableLiveData() {
+        return fileMutableLiveData;
     }
 }

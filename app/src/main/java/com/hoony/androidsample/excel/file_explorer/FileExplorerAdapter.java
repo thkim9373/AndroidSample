@@ -11,15 +11,21 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.hoony.androidsample.R;
 import com.hoony.androidsample.databinding.ItemSingleTextViewBinding;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 public class FileExplorerAdapter extends RecyclerView.Adapter {
 
-    private List<String> filePathList = new ArrayList<>();
+    private List<File> filePathList = new ArrayList<>();
 
-    FileExplorerAdapter(List<String> filePathList) {
+    FileExplorerAdapter(List<File> filePathList) {
         this.filePathList = filePathList;
+    }
+
+    void setFilePathList(List<File> fileList) {
+        this.filePathList = fileList;
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -31,7 +37,7 @@ public class FileExplorerAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         ItemSingleTextViewBinding binding = ((ItemHolder) holder).getBinding();
-        String filePath = filePathList.get(position);
+        File file = filePathList.get(position);
     }
 
     @Override
