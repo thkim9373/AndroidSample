@@ -13,11 +13,12 @@ import com.hoony.androidsample.databinding.ActivityFileExplorerBinding;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
-public class FileExplorerActivity extends AppCompatActivity implements View.OnClickListener {
+public class FileExplorerActivity extends AppCompatActivity
+        implements View.OnClickListener
+        , FileExplorerAdapter.FileExplorerAdapterListener {
 
     private ActivityFileExplorerBinding binding;
     private FileExplorerViewModel viewModel;
@@ -35,20 +36,36 @@ public class FileExplorerActivity extends AppCompatActivity implements View.OnCl
         viewModel.getFileMutableLiveData().observe(FileExplorerActivity.this, file -> {
             binding.tvFilePath.setText(file.getAbsolutePath());
 
-            List<File> fileList = new ArrayList<>(Arrays.asList(Objects.requireNonNull(file.listFiles())));
+            List<File> directoryList = getDirectoryList(file.getAbsolutePath());
             FileExplorerAdapter adapter;
             if (binding.rvFile.getAdapter() != null) {
                 adapter = (FileExplorerAdapter) binding.rvFile.getAdapter();
-                adapter.setFilePathList(fileList);
+                adapter.setFileList(directoryList);
             } else {
-                adapter = new FileExplorerAdapter(fileList);
+                adapter = new FileExplorerAdapter(directoryList);
                 binding.rvFile.setAdapter(adapter);
             }
         });
     }
 
+    private List<File> getDirectoryList(String filePath) {
+        List<File> directoryList = new ArrayList<>();
+
+        File file = new File(filePath);
+        for (File f : Objects.requireNonNull(file.listFiles())) {
+            if (f.isDirectory()) directoryList.add(f);
+        }
+
+        return directoryList;
+    }
+
     @Override
     public void onClick(View view) {
+
+    }
+
+    @Override
+    public void onItemClick(String filePath) {
 
     }
 }

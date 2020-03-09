@@ -12,37 +12,42 @@ import com.hoony.androidsample.R;
 import com.hoony.androidsample.databinding.ItemSingleTextViewBinding;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
 public class FileExplorerAdapter extends RecyclerView.Adapter {
 
-    private List<File> filePathList = new ArrayList<>();
+    private List<File> fileList;
+    private FileExplorerAdapterListener listener;
 
-    FileExplorerAdapter(List<File> filePathList) {
-        this.filePathList = filePathList;
+    FileExplorerAdapter(List<File> fileList) {
+        this.fileList = fileList;
     }
 
-    void setFilePathList(List<File> fileList) {
-        this.filePathList = fileList;
+    void setFileList(List<File> fileList) {
+        this.fileList = fileList;
         notifyDataSetChanged();
+    }
+
+    interface FileExplorerAdapterListener {
+        void onItemClick(String filePath);
     }
 
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        if (listener == null) listener = (FileExplorerAdapterListener) parent.getContext();
         return new ItemHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_single_text_view, parent, false));
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         ItemSingleTextViewBinding binding = ((ItemHolder) holder).getBinding();
-        File file = filePathList.get(position);
+        File file = fileList.get(position);
     }
 
     @Override
     public int getItemCount() {
-        return filePathList.size();
+        return fileList.size();
     }
 
     private class ItemHolder extends RecyclerView.ViewHolder {
@@ -52,6 +57,15 @@ public class FileExplorerAdapter extends RecyclerView.Adapter {
         ItemHolder(@NonNull View itemView) {
             super(itemView);
             binding = DataBindingUtil.bind(itemView);
+            if (binding != null) {
+                binding.clContainer.setOnClickListener(view -> {
+                    int position = getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION) {
+                        File file = fileList.get(position);
+                        listener.onItemClick(file.getAbsolutePath());
+                    }
+                });
+            }
         }
 
         ItemSingleTextViewBinding getBinding() {
