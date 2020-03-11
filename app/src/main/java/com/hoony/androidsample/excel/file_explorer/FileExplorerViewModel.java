@@ -18,10 +18,14 @@ public class FileExplorerViewModel extends AndroidViewModel {
         filePathLiveData.setValue(Environment.getRootDirectory().toString());
 
         fileMutableLiveData = new MutableLiveData<>();
-        fileMutableLiveData.setValue(Environment.getRootDirectory());
+        fileMutableLiveData.setValue(Environment.getExternalStorageDirectory());
     }
 
     private MutableLiveData<File> fileMutableLiveData;
+
+    void setFileMutableLiveData(File file) {
+        this.fileMutableLiveData.setValue(file);
+    }
 
     private MutableLiveData<String> filePathLiveData;
 

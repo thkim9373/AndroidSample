@@ -36,7 +36,7 @@ public class FileExplorerActivity extends AppCompatActivity
         viewModel.getFileMutableLiveData().observe(FileExplorerActivity.this, file -> {
             binding.tvFilePath.setText(file.getAbsolutePath());
 
-            List<File> directoryList = getDirectoryList(file.getAbsolutePath());
+            List<File> directoryList = getDirectoryList(file);
             FileExplorerAdapter adapter;
             if (binding.rvFile.getAdapter() != null) {
                 adapter = (FileExplorerAdapter) binding.rvFile.getAdapter();
@@ -48,12 +48,16 @@ public class FileExplorerActivity extends AppCompatActivity
         });
     }
 
-    private List<File> getDirectoryList(String filePath) {
+    private List<File> getDirectoryList(File file) {
         List<File> directoryList = new ArrayList<>();
 
-        File file = new File(filePath);
-        for (File f : Objects.requireNonNull(file.listFiles())) {
-            if (f.isDirectory()) directoryList.add(f);
+//        for (File f : Objects.requireNonNull(file.listFiles())) {
+////            if (f.isDirectory())
+//                directoryList.add(f);
+//        }
+        for (File f : file.listFiles()) {
+//            if (f.isDirectory())
+                directoryList.add(f);
         }
 
         return directoryList;
@@ -65,7 +69,7 @@ public class FileExplorerActivity extends AppCompatActivity
     }
 
     @Override
-    public void onItemClick(String filePath) {
+    public void onItemClick(File file) {
 
     }
 }

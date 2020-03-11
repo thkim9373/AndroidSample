@@ -29,7 +29,7 @@ public class FileExplorerAdapter extends RecyclerView.Adapter {
     }
 
     interface FileExplorerAdapterListener {
-        void onItemClick(String filePath);
+        void onItemClick(File file);
     }
 
     @NonNull
@@ -43,6 +43,8 @@ public class FileExplorerAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         ItemSingleTextViewBinding binding = ((ItemHolder) holder).getBinding();
         File file = fileList.get(position);
+
+        binding.tvContent.setText(file.getName());
     }
 
     @Override
@@ -62,7 +64,7 @@ public class FileExplorerAdapter extends RecyclerView.Adapter {
                     int position = getAdapterPosition();
                     if (position != RecyclerView.NO_POSITION) {
                         File file = fileList.get(position);
-                        listener.onItemClick(file.getAbsolutePath());
+                        listener.onItemClick(file);
                     }
                 });
             }

@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.hoony.androidsample.R;
 import com.hoony.androidsample.databinding.ActivityExcelBinding;
+import com.hoony.androidsample.excel.file_explorer.FileExplorerActivity;
 import com.hoony.androidsample.excel.pojo.User;
 import com.hoony.androidsample.util.ToastPrinter;
 
@@ -83,7 +84,8 @@ public class ExcelActivity extends AppCompatActivity implements View.OnClickList
                 excelAdapter.addUser(user);
             }
         } else if (id == R.id.bt_check_out) {
-
+            Intent intent = new Intent(ExcelActivity.this, FileExplorerActivity.class);
+            startActivity(intent);
         }
     }
 
