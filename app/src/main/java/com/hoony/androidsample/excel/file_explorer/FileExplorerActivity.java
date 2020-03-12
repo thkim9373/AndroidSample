@@ -7,6 +7,9 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.hoony.androidsample.R;
 import com.hoony.androidsample.databinding.ActivityFileExplorerBinding;
@@ -29,7 +32,13 @@ public class FileExplorerActivity extends AppCompatActivity
         binding = DataBindingUtil.setContentView(FileExplorerActivity.this, R.layout.activity_file_explorer);
         viewModel = new ViewModelProvider(FileExplorerActivity.this, ViewModelProvider.AndroidViewModelFactory.getInstance(getApplication())).get(FileExplorerViewModel.class);
 
+        setView();
         setObserve();
+    }
+
+    private void setView() {
+        binding.rvFile.addItemDecoration(new DividerItemDecoration(FileExplorerActivity.this, RecyclerView.VERTICAL));
+        binding.rvFile.setLayoutManager(new LinearLayoutManager(FileExplorerActivity.this));
     }
 
     private void setObserve() {
@@ -51,12 +60,8 @@ public class FileExplorerActivity extends AppCompatActivity
     private List<File> getDirectoryList(File file) {
         List<File> directoryList = new ArrayList<>();
 
-//        for (File f : Objects.requireNonNull(file.listFiles())) {
-////            if (f.isDirectory())
-//                directoryList.add(f);
-//        }
-        for (File f : file.listFiles()) {
-//            if (f.isDirectory())
+        for (File f : Objects.requireNonNull(file.listFiles())) {
+            if (f.isDirectory())
                 directoryList.add(f);
         }
 
@@ -70,6 +75,11 @@ public class FileExplorerActivity extends AppCompatActivity
 
     @Override
     public void onItemClick(File file) {
+        viewModel.setFileMutableLiveData(file);
+    }
 
+    @Override
+    public void onBackPressed() {
+        viewModel.setPrevDirectory();
     }
 }

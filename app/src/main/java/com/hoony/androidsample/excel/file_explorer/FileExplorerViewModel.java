@@ -8,14 +8,12 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
 
 import java.io.File;
+import java.util.Objects;
 
 public class FileExplorerViewModel extends AndroidViewModel {
 
     public FileExplorerViewModel(@NonNull Application application) {
         super(application);
-
-        filePathLiveData = new MutableLiveData<>();
-        filePathLiveData.setValue(Environment.getRootDirectory().toString());
 
         fileMutableLiveData = new MutableLiveData<>();
         fileMutableLiveData.setValue(Environment.getExternalStorageDirectory());
@@ -27,18 +25,16 @@ public class FileExplorerViewModel extends AndroidViewModel {
         this.fileMutableLiveData.setValue(file);
     }
 
-    private MutableLiveData<String> filePathLiveData;
-
-    public MutableLiveData<String> getFilePathLiveData() {
-        return filePathLiveData;
-    }
-
-    public void setFilePath(String filePath) {
-        this.filePathLiveData.setValue(filePath);
-        File file;
-    }
-
-    public MutableLiveData<File> getFileMutableLiveData() {
+    MutableLiveData<File> getFileMutableLiveData() {
         return fileMutableLiveData;
+    }
+
+    void setPrevDirectory() {
+        File currentDirectory = Objects.requireNonNull(this.fileMutableLiveData.getValue());
+        String filePath = currentDirectory.getAbsolutePath();
+
+        String prevFilePath = filePath.substring(0, filePath.lastIndexOf("/"));
+        File prevFile = new File(prevFilePath);
+        this.fileMutableLiveData.setValue(prevFile);
     }
 }

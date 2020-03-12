@@ -9,7 +9,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.hoony.androidsample.R;
-import com.hoony.androidsample.databinding.ItemSingleTextViewBinding;
+import com.hoony.androidsample.databinding.ItemDirectoryBinding;
 
 import java.io.File;
 import java.util.List;
@@ -36,15 +36,16 @@ public class FileExplorerAdapter extends RecyclerView.Adapter {
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         if (listener == null) listener = (FileExplorerAdapterListener) parent.getContext();
-        return new ItemHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_single_text_view, parent, false));
+        return new ItemHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_directory, parent, false));
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        ItemSingleTextViewBinding binding = ((ItemHolder) holder).getBinding();
+        ItemDirectoryBinding binding = ((ItemHolder) holder).getBinding();
         File file = fileList.get(position);
 
-        binding.tvContent.setText(file.getName());
+        String name = file.getName();
+        binding.tvContent.setText(name);
     }
 
     @Override
@@ -54,7 +55,7 @@ public class FileExplorerAdapter extends RecyclerView.Adapter {
 
     private class ItemHolder extends RecyclerView.ViewHolder {
 
-        private ItemSingleTextViewBinding binding;
+        private ItemDirectoryBinding binding;
 
         ItemHolder(@NonNull View itemView) {
             super(itemView);
@@ -70,7 +71,7 @@ public class FileExplorerAdapter extends RecyclerView.Adapter {
             }
         }
 
-        ItemSingleTextViewBinding getBinding() {
+        ItemDirectoryBinding getBinding() {
             return binding;
         }
     }
