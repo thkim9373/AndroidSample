@@ -84,9 +84,15 @@ public class ExcelActivity extends AppCompatActivity implements View.OnClickList
                 excelAdapter.addUser(user);
             }
         } else if (id == R.id.bt_check_out) {
-            Intent intent = new Intent(ExcelActivity.this, FileExplorerActivity.class);
-            startActivity(intent);
+            if (isPermissionGranted()) {
+                startFileExplorerActivity();
+            }
         }
+    }
+
+    private void startFileExplorerActivity() {
+        Intent intent = new Intent(ExcelActivity.this, FileExplorerActivity.class);
+        startActivityForResult(intent, 0);
     }
 
     private boolean isPermissionGranted() {
@@ -121,7 +127,20 @@ public class ExcelActivity extends AppCompatActivity implements View.OnClickList
             }
         }
 
+        startFileExplorerActivity();
+    }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 0) {
+            if (resultCode == RESULT_OK) {
+                if (data == null) return;
+
+                String filePath = data.getStringExtra("file_path");
+                // TODO : 엑셀 파일 생성 후 저장 로직 구현하기;
+            }
+        }
     }
 
     @Override

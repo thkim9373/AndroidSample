@@ -1,5 +1,6 @@
 package com.hoony.androidsample.excel.file_explorer;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
@@ -70,7 +71,15 @@ public class FileExplorerActivity extends AppCompatActivity
 
     @Override
     public void onClick(View view) {
-
+        if (view.getId() == binding.btConfirm.getId()) {
+            File file = viewModel.getFileMutableLiveData().getValue();
+            if (file != null) {
+                Intent resultIntent = new Intent();
+                resultIntent.putExtra("file_path", viewModel.getFileMutableLiveData().getValue().getAbsolutePath());
+                setResult(0, resultIntent);
+            }
+            finish();
+        }
     }
 
     @Override
