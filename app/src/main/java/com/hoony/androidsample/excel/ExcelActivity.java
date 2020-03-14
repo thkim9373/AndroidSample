@@ -25,6 +25,17 @@ import com.hoony.androidsample.excel.file_explorer.FileExplorerActivity;
 import com.hoony.androidsample.excel.pojo.User;
 import com.hoony.androidsample.util.ToastPrinter;
 
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.List;
+
 public class ExcelActivity extends AppCompatActivity implements View.OnClickListener {
 
     private ActivityExcelBinding binding;
@@ -134,13 +145,61 @@ public class ExcelActivity extends AppCompatActivity implements View.OnClickList
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 0) {
-            if (resultCode == RESULT_OK) {
-                if (data == null) return;
+            if (data == null) return;
 
-                String filePath = data.getStringExtra("file_path");
-                // TODO : 엑셀 파일 생성 후 저장 로직 구현하기;
+            Workbook workbook = createWorkbook();
+            if (workbook == null) {
+                ToastPrinter.showToast(ExcelActivity.this, "입력 내용이 없습니다.");
+                return;
             }
+
+            String filePath = data.getStringExtra("file_path");
+
+            File xls = new File(filePath + "/user.xls");
+
+            try {
+                FileOutputStream fos = new FileOutputStream(xls);
+                workbook.write(fos);
+
+                ToastPrinter.showToast(ExcelActivity.this, "저장이 완료되었습니다.");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+//            if (resultCode == RESULT_OK) {
+//
+//            }
         }
+    }
+
+    private Workbook createWorkbook() {
+        Workbook workbook = new HSSFWorkbook();
+
+        Sheet sheet1 = workbook.createSheet("Time stamp");
+
+        Row row = sheet1.createRow(0);
+
+        Cell userCell = row.createCell(0);
+        userCell.setCellValue("User");
+
+        Cell timeCell = row.createCell(1);
+        timeCell.setCellValue("Time");
+
+        List<User> userList = viewModel.getUserListLiveData().getValue();
+        if (userList == null || userList.size() == 0) return null;
+
+        for (int i = 0; i < userList.size(); i++) {
+            User user = userList.get(i);
+
+            Row inputRow = sheet1.createRow(i + 1);
+
+            Cell nameCell = inputRow.createCell(0);
+            nameCell.setCellValue(user.getName());
+
+            Cell timeStampCell = inputRow.createCell(1);
+            timeStampCell.setCellValue(user.getInputTime());
+        }
+
+        return workbook;
     }
 
     @Override

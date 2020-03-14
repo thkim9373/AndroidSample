@@ -33,8 +33,13 @@ public class FileExplorerActivity extends AppCompatActivity
         binding = DataBindingUtil.setContentView(FileExplorerActivity.this, R.layout.activity_file_explorer);
         viewModel = new ViewModelProvider(FileExplorerActivity.this, ViewModelProvider.AndroidViewModelFactory.getInstance(getApplication())).get(FileExplorerViewModel.class);
 
+        setListener();
         setView();
         setObserve();
+    }
+
+    private void setListener() {
+        binding.btConfirm.setOnClickListener(FileExplorerActivity.this);
     }
 
     private void setView() {

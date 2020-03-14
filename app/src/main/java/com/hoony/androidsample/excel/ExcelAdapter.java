@@ -18,7 +18,7 @@ public class ExcelAdapter extends RecyclerView.Adapter {
 
     private List<User> userList;
 
-    public ExcelAdapter(List<User> userList) {
+    ExcelAdapter(List<User> userList) {
         this.userList = userList;
     }
 
