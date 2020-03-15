@@ -1,7 +1,6 @@
 package com.hoony.androidsample.excel.file_explorer;
 
 import android.app.Application;
-import android.os.Environment;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -16,7 +15,8 @@ public class FileExplorerViewModel extends AndroidViewModel {
         super(application);
 
         fileMutableLiveData = new MutableLiveData<>();
-        fileMutableLiveData.setValue(Environment.getExternalStorageDirectory());
+//        Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+        fileMutableLiveData.setValue(application.getExternalFilesDir(null));
     }
 
     private MutableLiveData<File> fileMutableLiveData;

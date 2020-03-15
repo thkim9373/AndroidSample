@@ -165,9 +165,6 @@ public class ExcelActivity extends AppCompatActivity implements View.OnClickList
             } catch (IOException e) {
                 e.printStackTrace();
             }
-//            if (resultCode == RESULT_OK) {
-//
-//            }
         }
     }
 
